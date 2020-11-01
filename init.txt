@@ -1,0 +1,2 @@
+1. sts4 install
+2. eclipse market -> spring Tools 3 Add-On for Spring Tools 4 install
