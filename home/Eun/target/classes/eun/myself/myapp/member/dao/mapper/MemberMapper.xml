@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eun.myself.myapp.member.dao.IMemberRepository">
+	<select id="memberSignUp" resultType="eun.myself.myapp.member.model.Member">
+Select * from a
+	</select>
+	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
+		Select * from a
+	</select>
+</mapper>
