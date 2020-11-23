@@ -8,4 +8,17 @@ Select * from a
 	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
+	<select id="memberModify" resultType="eun.myself.myapp.member.model.Member">
+		Select * from a
+	</select>
+	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
+		Select 
+			uid,
+			gid,
+			username,
+			password
+		 from
+		  member
+	     where username=#{username}
+	</select>
 </mapper>

@@ -13,7 +13,7 @@ import eun.myself.myapp.member.service.IMemberService;
 public class MemberService implements IMemberService{
 	
 	@Autowired
-	IMemberRepository memberrepository;
+	IMemberRepository memberRepository;
 	
 
 	@Override
@@ -25,13 +25,25 @@ public class MemberService implements IMemberService{
 	@Override
 	public void memberSignIn(Member member) {
 		// TODO Auto-generated method stub
-		memberrepository.memberSignIn(member);
+		memberRepository.memberSignIn(member);
 	}
 
 	@Override
 	public void memberSignUp(Member member) {
 		// TODO Auto-generated method stub
-		memberrepository.memberSignUp(member);
+		memberRepository.memberSignUp(member);
+	}
+
+	@Override
+	public void memberModify(Member member) {
+		// TODO Auto-generated method stub
+		memberRepository.memberModify(member);
+	}
+
+	@Override
+	public Member selectMember(String username) {
+		// TODO Auto-generated method stub		
+		return memberRepository.selectMember(username);
 	}
 	
 

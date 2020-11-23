@@ -6,7 +6,8 @@ import eun.myself.myapp.member.model.Member;
 
 @Repository
 public interface IMemberRepository {
-
+	Member selectMember(String username);
 	void memberSignIn(Member member);
 	void memberSignUp(Member member);
+	void memberModify(Member member);
 }

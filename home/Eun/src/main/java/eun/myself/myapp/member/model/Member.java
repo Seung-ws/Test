@@ -1,9 +1,23 @@
 package eun.myself.myapp.member.model;
 
 public class Member {
-
+	String uid;
+	String gid;
 	String username;
 	String password;
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getGid() {
+		return gid;
+	}
+	public void setGid(String gid) {
+		this.gid = gid;
+	}
+
 	
 	
 	
