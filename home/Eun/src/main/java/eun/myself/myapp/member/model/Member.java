@@ -5,6 +5,14 @@ public class Member {
 	String gid;
 	String username;
 	String password;
+	int authstate;
+	
+	public int getAuthstate() {
+		return authstate;
+	}
+	public void setAuthstate(int authstate) {
+		this.authstate = authstate;
+	}
 	public String getUid() {
 		return uid;
 	}

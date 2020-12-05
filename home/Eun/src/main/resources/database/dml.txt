@@ -1,1 +1,1 @@
-insert into member values(0,null,'admin','admin');
+insert into emember values(0,null,'admin@admin.com','admin',0);
