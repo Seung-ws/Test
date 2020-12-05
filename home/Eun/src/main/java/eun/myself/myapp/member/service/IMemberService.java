@@ -9,7 +9,7 @@ public interface IMemberService {
 	Member selectMember(String username);
 	void memberSignOut();
 	void memberSignIn(Member member);
-	void memberSignUp(Member member);
+	void signUpMember(Member member);
 	void memberModify(Member member);
 	
 }

@@ -21,7 +21,7 @@
 
 <!-- session valid -->
 <c:if test="${empty sessionScope.username }">
-	<div class="loginpanel">
+	<div class="loginpanel ">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signin" method="post" action="<c:url value='/login'/>" >	
 	  		<img class="mb-4" src="./resources/images/member/login/test.png" alt="" width="72" height="72">
@@ -38,10 +38,11 @@
 	  		<input type="password" name="password"  id="inputPassword" class="form-control" placeholder="Password" required>
 	  		<div class="checkbox mb-3">
     			<label>
-	      			<input type="checkbox" value="remember-me"> Remember me
+	      			<input type="checkbox" name="remember" value="remember-me"> Remember me
 	    		</label>
    			</div>
 	  		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	  		<button class="btn btn-lg btn btn-secondary btn-block" type="button" onclick="location.href='<c:url value='/signup'/>'">Sign Up</button>
 	  		<p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 		</form>
 	</div>

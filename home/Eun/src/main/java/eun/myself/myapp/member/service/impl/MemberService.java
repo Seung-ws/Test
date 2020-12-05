@@ -29,9 +29,9 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public void memberSignUp(Member member) {
+	public void signUpMember(Member member) {
 		// TODO Auto-generated method stub
-		memberRepository.memberSignUp(member);
+		memberRepository.signUpMember(member);
 	}
 
 	@Override

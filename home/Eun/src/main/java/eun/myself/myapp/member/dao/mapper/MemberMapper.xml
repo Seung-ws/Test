@@ -2,9 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eun.myself.myapp.member.dao.IMemberRepository">
-	<select id="memberSignUp" resultType="eun.myself.myapp.member.model.Member">
-		Select * from a
-	</select>
+	<insert id="signUpMember" parameterType="eun.myself.myapp.member.model.Member">
+	<![CDATA[
+		insert into 
+			emember (uid,gid,username,password)
+		values
+			(#{uid},#{gid},#{username},#{password})
+	]]>
+	</insert>
+	
 	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
@@ -12,6 +18,7 @@
 		Select * from a
 	</select>
 	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
+	<![CDATA[
 		Select 
 			uid,
 			gid,
@@ -21,5 +28,6 @@
 		 from
 		  emember
 	     where username=#{username}
+   	]]>
 	</select>
 </mapper>

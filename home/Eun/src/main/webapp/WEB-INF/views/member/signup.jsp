@@ -45,7 +45,7 @@
 		  		<input type="password" name="password"  id="inputPassword" class="form-control" placeholder="Password" required>
 		  		<input type="password" name="validpassword"  id="validPassword" class="form-control" placeholder="valid Password" required>
 		  		
-	  		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+	  		    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
 	  		<p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 		</form>
 	</div>

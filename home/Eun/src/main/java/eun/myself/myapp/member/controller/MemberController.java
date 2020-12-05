@@ -1,5 +1,12 @@
 package eun.myself.myapp.member.controller;
 
+
+import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +32,9 @@ public class MemberController {
 		return "member/login";
 	}
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String memberLogin(String username,String password,HttpSession session,Model model)	
+	public String memberLogin(String remember,String username,String password,HttpSession session,Model model)	
 	{
-		syslog.getLog("사용자:"+username);
+		
 		//계정정보 탐색
 		Member member=memberService.selectMember(username);
 		if(member!=null)
@@ -37,12 +44,22 @@ public class MemberController {
 			if(dbPassword!=null)
 			{
 				//로그인 성공
-				if(dbPassword.contentEquals(password))
+				if(dbPassword.equals(getHash(password,"SHA256")))
 				{
 					session.setAttribute("username", username);
 					session.setAttribute("uid",member.getUid());
 					session.setAttribute("gid", member.getGid());
+					
+					
+					
+					if(remember!=null)
+					{
+						//쿠키생성필요
+						syslog.getLog(remember);
+						syslog.getLog("자동로그인체크");
+					}
 					syslog.getLog("로그인완료");
+					
 					//redirect 로 uri 갱신
 					return "redirect:/";
 					
@@ -70,4 +87,56 @@ public class MemberController {
 	{
 		return "member/signup";
 	}
+	@RequestMapping(value="/signup",method=RequestMethod.POST)
+	public String signUpMember(String username,String password)
+	{
+		
+		Member member=memberService.selectMember(username);
+		if(member==null)
+		{
+			
+			Member newmember =new Member();
+			String uid=UUID.randomUUID().toString();
+			newmember.setUid(uid);
+			newmember.setUsername(username);
+			newmember.setPassword(getHash(password,"SHA256"));
+			
+			memberService.signUpMember(newmember);
+			syslog.getLog("id가 생성되었습니다");
+		}else
+		{
+			syslog.getLog("id가 존재합니다");
+		}
+		
+		
+		
+		return "redirect:/";
+	}
+	
+	
+	
+	
+	public String getHash(String str, String hashType)
+    {
+        String result="";
+        try{
+            MessageDigest messageDigest=MessageDigest.getInstance(hashType);
+            messageDigest.update(str.getBytes("UTF-8"));
+
+            byte[] data=messageDigest.digest();
+            int dataLength=data.length;
+
+            for(int i=0;i<dataLength;i++)
+            {
+                result+=(Integer.toString((data[i]&0xff) + 0x100, 16).substring(1));
+                //System.out.println(Integer.toHexString(data[i]&0xff));
+            }
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            //hash타입을 찾지 못했을 때;
+            e.printStackTrace();
+            return null;
+        };
+        return result;
+    }
 }
