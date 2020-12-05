@@ -65,4 +65,9 @@ public class MemberController {
 		//redirect ·Î uri °»½Å
 		return "redirect:"+refurl;
 	}
+	@RequestMapping(value="/signup",method=RequestMethod.GET)
+	public String signUpMember()
+	{
+		return "member/signup";
+	}
 }
