@@ -29,7 +29,7 @@ public class MemberController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String memberLogin() {
 		
-		return "member/login";
+		return "memberLogin/memberLogin";
 	}
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String memberLogin(String remember,String username,String password,HttpSession session,Model model)	
@@ -72,7 +72,7 @@ public class MemberController {
 			model.addAttribute("message","USER_NOT_FOUND");
 		}
 		session.invalidate();					
-		return "member/login";
+		return "memberLogin/memberLogin";
 	}
 	@RequestMapping(value="/login.logout",method=RequestMethod.GET)
 	public String memberLogout(String refurl,HttpSession session) {		
@@ -85,7 +85,7 @@ public class MemberController {
 	@RequestMapping(value="/signup",method=RequestMethod.GET)
 	public String signUpMember()
 	{
-		return "member/signup";
+		return "memberInsert/memberInsert";
 	}
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
 	public String signUpMember(String username,String password)

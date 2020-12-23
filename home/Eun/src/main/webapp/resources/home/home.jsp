@@ -10,7 +10,9 @@
 </head>
 <!-- Import : static File -->
 <jsp:include page="/WEB-INF/views/include/staticFile.jsp"/>
-<link rel="stylesheet" href="./resources/css/home/home.css"/>
+
+
+<link rel="stylesheet" href="./resources/home/css/home.css"/>
 
 
 <body>

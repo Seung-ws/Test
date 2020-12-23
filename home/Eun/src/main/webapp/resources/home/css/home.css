@@ -1,6 +1,6 @@
 @charset "utf-8";
     .home-image{
-        background-image : url("../../images/home/home.jpg");
+        background-image : url("../images/home.jpg");
         background-repeat: no-repeat;
         background-postion: center;
         background-size: cover;

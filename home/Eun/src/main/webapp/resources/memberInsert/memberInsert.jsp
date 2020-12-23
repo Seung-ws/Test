@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="/WEB-INF/views/include/staticFile.jsp"/>
-<link rel="stylesheet" href="./resources/css/member/signup/signup.css"/>
+<link rel="stylesheet" href="./resources/memberInsert/css/memberInsert.css"/>
 </head>
 <body  class="text-center">
 <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
@@ -24,7 +24,7 @@
 	<div class="signuppanel">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signup" method="post" action="<c:url value='/signup'/>" >	
-	  		<img class="mb-4" src="./resources/images/member/signup/test.png" alt="" width="72" height="72">
+	  		<img class="mb-4" src="./resources/memberInsert/images/test.png" alt="" width="72" height="72">
 	  		<h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 	  		
             <h2 class="h5 mb-1 font-weight-normal">회원가입</small></h2>
