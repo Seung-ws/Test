@@ -18,7 +18,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
 <div class="home-image">
-    <h2 class="title"> Eun Media Server</h2>
+    <h2 class="title"> TestServer</h2>
     <h4 class="powered">
     	<i class="fas fa-aarrow-circle-right"></i>
      	Spring MVC Project
