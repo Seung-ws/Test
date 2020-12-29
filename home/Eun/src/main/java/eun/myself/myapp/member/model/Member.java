@@ -3,15 +3,33 @@ package eun.myself.myapp.member.model;
 public class Member {
 	String uid;
 	String gid;
+	String userid;
 	String username;
 	String password;
-	int authstate;
 	
-	public int getAuthstate() {
-		return authstate;
+	String email;
+	String profileimage;
+	public String getProfileimage() {
+		return profileimage;
 	}
-	public void setAuthstate(int authstate) {
-		this.authstate = authstate;
+	public void setProfileimage(String profileimage) {
+		this.profileimage = profileimage;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	
+	
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public String getUid() {
 		return uid;

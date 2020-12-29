@@ -20,7 +20,7 @@
 
 
 <!-- session valid -->
-<c:if test="${empty sessionScope.username }">
+<c:if test="${empty sessionScope.userid }">
 	<div class="loginpanel ">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signin" method="post" action="<c:url value='/login'/>" >	
@@ -30,7 +30,7 @@
             <h2 class="h5 mb-1 font-weight-normal"><fmt:message key="${not empty message ? message : 'BLANK'}"/></small></h2>
 	  		<!-- 로그인정보 -->	
 	  		<label for="inputEmail" class="sr-only">Email address</label>
-	  		<input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
+	  		<input type="userid" id="inputEmail" name="userid" class="form-control" placeholder="Email address" required autofocus>
 	  		
 	  		<!-- 로그인정보2 -->
 	  		<label for="inputPassword" class="sr-only">Password</label>
@@ -42,7 +42,7 @@
 	    		</label>
    			</div>
 	  		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-	  		<button class="btn btn-lg btn btn-secondary btn-block" type="button" onclick="location.href='<c:url value='/signup'/>'">Sign Up</button>
+	  		<button class="btn btn-lg btn btn-secondary btn-block" type="button" onclick="location.href='<c:url value='/memberInsert'/>'">Sign Up</button>
 	  		<p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 		</form>
 	</div>

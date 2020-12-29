@@ -23,23 +23,25 @@
 <c:if test="${empty sessionScope.username }">
 	<div class="signuppanel">
 		<!-- 로그인을 포스트로 전달 -->
-   		<form class="form-signup" method="post" action="<c:url value='/signup'/>" >	
+   		<form class="form-signup" method="post" action="<c:url value='/memberInsert'/>" >	
 	  		<img class="mb-4" src="./resources/memberInsert/images/test.png" alt="" width="72" height="72">
 	  		<h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 	  		
             <h2 class="h5 mb-1 font-weight-normal">회원가입</small></h2>
-	  		<!-- 로그인정보 -->	
+	  		<!-- 로그인 정보 -->	
 	  		<label for="inputEmail" class="sr-only">Email address</label>
 	  		
 	  		<div class="input-group">
-	  			<input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
+	  			<input type="text" name="userid" class="form-control" placeholder="userid" required autofocus>
 	  			<span class="input-group-btn">
         			<button class="btn btn-primary form-btn" type="button">인증</button>
       			</span>
 	  		
   			
   			</div>
-	  		<!-- 로그인정보2 -->
+  			<!--  이메일 등록  -->
+  			
+	  		<!-- 비밀번호 정보 -->
 	  		<label for="inputPassword" class="sr-only">Password</label>
 	  	
 		  		<input type="password" name="password"  id="inputPassword" class="form-control" placeholder="Password" required>

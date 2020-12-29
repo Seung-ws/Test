@@ -1,9 +1,11 @@
-create table emember(
+create table memberInfo(
 	uid varchar(36) not null,
 	gid varchar(36),	
+	userid varchar(20),
 	username varchar(20),
 	password varchar(64),
-	authstate integer default 0,
+	email varchar(50) default null,	
+	profileimage varchar(100) default null,	
 	constraint member_uid_uk unique(uid),
-	constraint member_username_pk primary key(username)	
+	constraint member_userid_pk primary key(userid)	
 );

@@ -6,10 +6,11 @@ import eun.myself.myapp.member.model.Member;
 
 
 public interface IMemberService {
-	Member selectMember(String username);
+	Member selectMember(String userid);
+	Member getMember(String uid);
 	void memberSignOut();
 	void memberSignIn(Member member);
 	void signUpMember(Member member);
-	void memberModify(Member member);
+	void memberUpdate(Member member);
 	
 }

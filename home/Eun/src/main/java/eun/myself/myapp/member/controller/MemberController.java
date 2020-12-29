@@ -32,11 +32,10 @@ public class MemberController {
 		return "memberLogin/memberLogin";
 	}
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String memberLogin(String remember,String username,String password,HttpSession session,Model model)	
-	{
-		
+	public String memberLogin(String remember,String userid,String password,HttpSession session,Model model)	
+	{		
 		//계정정보 탐색
-		Member member=memberService.selectMember(username);
+		Member member=memberService.selectMember(userid);
 		if(member!=null)
 		{
 			//DB상 password
@@ -46,9 +45,8 @@ public class MemberController {
 				//로그인 성공
 				if(dbPassword.equals(getHash(password,"SHA256")))
 				{
-					session.setAttribute("username", username);
-					session.setAttribute("uid",member.getUid());
-					session.setAttribute("gid", member.getGid());
+					session.setAttribute("userid", userid);
+	
 					
 					
 					
@@ -56,7 +54,7 @@ public class MemberController {
 					{
 						//쿠키생성필요
 						syslog.getLog(remember);
-						syslog.getLog("자동로그인체크");
+						syslog.getLog("자동로그인체크했습니다");
 					}
 					syslog.getLog("로그인완료");
 					
@@ -80,25 +78,31 @@ public class MemberController {
 		session.invalidate();
 		syslog.getLog("사용자 로그아웃");
 		//redirect 로 uri 갱신
-		return "redirect:"+refurl;
+		if(refurl!=null)
+		{
+			return "redirect:"+refurl;	
+		}else
+		{
+			return "home/home";
+		}
+		
 	}
-	@RequestMapping(value="/signup",method=RequestMethod.GET)
+	@RequestMapping(value="/memberInsert",method=RequestMethod.GET)
 	public String signUpMember()
 	{
 		return "memberInsert/memberInsert";
 	}
-	@RequestMapping(value="/signup",method=RequestMethod.POST)
-	public String signUpMember(String username,String password)
-	{
-		
-		Member member=memberService.selectMember(username);
+	@RequestMapping(value="/memberInsert",method=RequestMethod.POST)
+	public String signUpMember(String userid,String password)
+	{		
+		Member member=memberService.selectMember(userid);
 		if(member==null)
 		{
 			
 			Member newmember =new Member();
 			String uid=UUID.randomUUID().toString();
 			newmember.setUid(uid);
-			newmember.setUsername(username);
+			newmember.setUsername(userid);
 			newmember.setPassword(getHash(password,"SHA256"));
 			
 			memberService.signUpMember(newmember);
@@ -111,6 +115,25 @@ public class MemberController {
 		
 		
 		return "redirect:/";
+	}
+	@RequestMapping(value="/memberProfile",method=RequestMethod.GET)
+	public String memberProfile(HttpSession session,Model model) {
+		String userid=(String)session.getAttribute("userid");
+		if(userid!=null)
+		{
+			Member member=memberService.selectMember(userid);	
+			if(member!=null)
+			{
+				model.addAttribute("username",member.getUsername());
+				return"memberProfile/memberProfile";
+			}
+		}
+		return "home/home";
+		
+		
+		
+		
+	
 	}
 	
 	

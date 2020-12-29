@@ -31,8 +31,8 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		
 		
-		//return "home/home";
-		return "memberProfile/memberProfile";
+		return "home/home";
+	
 	}
 	
 	

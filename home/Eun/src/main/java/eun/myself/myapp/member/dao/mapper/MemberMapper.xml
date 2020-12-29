@@ -5,16 +5,20 @@
 	<insert id="signUpMember" parameterType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
 		insert into 
-			emember (uid,gid,username,password)
+			memberInfo 
+			(uid,gid,userid,username,password,email,profileimage)
 		values
-			(#{uid},#{gid},#{username},#{password})
+			(#{uid},#{gid},#{username},#{username},#{password},#{email},#{profileimage})
 	]]>
 	</insert>
 	
 	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
-	<select id="memberModify" resultType="eun.myself.myapp.member.model.Member">
+	<select id="memberUpdate" resultType="eun.myself.myapp.member.model.Member">
+		Select * from a
+	</select>
+	<select id="getMember" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
 	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
@@ -22,12 +26,14 @@
 		Select 
 			uid,
 			gid,
+			userid,
 			username,
 			password,
-			authstate
+			email,
+			profileimage
 		 from
-		  emember
-	     where username=#{username}
+		  memberInfo
+	     where userid=#{userid}
    	]]>
 	</select>
 </mapper>

@@ -35,15 +35,22 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public void memberModify(Member member) {
+	public void memberUpdate(Member member) {
 		// TODO Auto-generated method stub
-		memberRepository.memberModify(member);
+		memberRepository.memberUpdate(member);
 	}
 
 	@Override
-	public Member selectMember(String username) {
+	public Member selectMember(String userid) {
 		// TODO Auto-generated method stub		
-		return memberRepository.selectMember(username);
+		return memberRepository.selectMember(userid);
+	}
+
+	@Override
+	public Member getMember(String uid) {
+		// TODO Auto-generated method stub
+		
+		return memberRepository.getMember(uid);
 	}
 	
 
