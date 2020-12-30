@@ -37,6 +37,24 @@
   }
    
     </style>
+    <script type="text/javascript">
+	$(document).ready(function(){
+		 $("#update").click(function () {
+			 $("#memberProfilePanel").attr("action","/myapp/memberProfile");
+			 $("#memberProfilePanel").attr("method","post");  		 
+			 	
+		 });
+		 $("#delete").click(function () {
+			 $("#memberProfilePanel").attr("action","/myapp/memberDelete");
+			 $("#memberProfilePanel").attr("method","post");  		 
+			 	
+		 });
+  			
+   	
+	});
+   
+    </script>
+    
   </head>
   <body>
     <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
@@ -69,13 +87,13 @@
 		      </div>
 		      <div class="col-md-7 col-lg-8">
 		        <h4 class="mb-3">My Info</h4>
-		        <form class="needs-validation" novalidate>
+		        <form  id="memberProfilePanel"class="needs-validation" novalidate>
 		        
 		          <div class="row g-3">
 		            <div class="col-sm-6 " >
-		              <label for="firstName" class="form-label">NickName</label>
+		              <label for="firstName" class="form-label">username</label>
 		            
-		              <input type="text" class="form-control" id="Nickname" placeholder="" value="<c:out value="${username}"/>" required>
+		              <input type="text" class="form-control" name="username" id="username" placeholder="username" value="${member.username }" required>
 		              
 		          
 		              <div class="invalid-feedback">
@@ -95,13 +113,13 @@
 				
 					<div class="col-12">
 		              <label for="password" class="form-label">Password <span class="text-muted">(Optional)</span></label>
-		              <input type="password" class="form-control" id="email" placeholder="passwordc">
-		              <label for="password" class="form-label">password valid<span class="text-muted">(Optional)</span></label>
-		              <input type="password" class="form-control" id="email" placeholder="passwordc">
+		              <input type="password" class="form-control" name="password" id="password" placeholder="passwordc">
+		              <label for="password" class="form-label">Password valid<span class="text-muted">(Optional)</span></label>
+		              <input type="password" class="form-control"  id="password valid" placeholder="passwordc">
 		            </div>
 		            <div class="col-12">
 		              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-		              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+		              <input type="email" class="form-control" name="email" placeholder="you@example.com" value="${member.email }">
 		              <div class="invalid-feedback">
 		                Please enter a valid email address for shipping updates.
 		              </div>
@@ -112,9 +130,9 @@
 		          </div>
 		          <div class="col-13">
 		          <label>&nbsp;</label>
-		 		  <button class="w-100 btn btn-primary btn-lg" type="submit">Update</button>
+		 		  <button id="update"class="w-100 btn btn-primary btn-lg" >Update</button>
 		 		  </div>
-		 		</form>
+		 		
 		          <hr class="my-4">
 		
 		          <hr class="my-4">
@@ -122,9 +140,10 @@
 		          <h4 class="mb-3">MemberDelete</h4>
 		
 		
-		          <button class="btn btn-primary btn-lg" type="submit">Delete</button>
+		          <button id="delete" class="btn btn-primary btn-lg" type="submit">Delete</button>
 		       
 		          <hr class="my-4">
+		          </form>
 		      </div>
 		    </div>
 		  </main>

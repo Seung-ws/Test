@@ -35,9 +35,16 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public void memberUpdate(Member member) {
+	public boolean memberUpdate(Member member) {
 		// TODO Auto-generated method stub
-		memberRepository.memberUpdate(member);
+		try {
+			memberRepository.memberUpdate(member);
+		}catch(Exception e)
+		{
+			return false;	
+		}
+		return true;
+		
 	}
 
 	@Override
@@ -47,12 +54,19 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public Member getMember(String uid) {
+	public boolean memberDelete(String userid) {
 		// TODO Auto-generated method stub
-		
-		return memberRepository.getMember(uid);
+		try {
+			memberRepository.memberDelete(userid);
+			
+		}catch(Exception e)
+		{
+			return false;
+		}
+		return true;
 	}
-	
+
+
 
 
 }

@@ -27,9 +27,20 @@ public class MemberController {
 	SysLog syslog;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String memberLogin() {
+	public String memberLogin(HttpSession session) {
+		String userid=(String)session.getAttribute("userid");
+		syslog.getLog("GET-login 진입 & 세션 확인");
+		if(userid!=null)
+		{
+			syslog.getLog("GET-login -> /memberProfile");
+			return "redirect:/memberProfile";
+		}
+		else
+		{
+			syslog.getLog("GET-login 세션 없음 ->/memberlogin");
+			return "memberLogin/memberLogin";	
+		}
 		
-		return "memberLogin/memberLogin";
 	}
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String memberLogin(String remember,String userid,String password,HttpSession session,Model model)	
@@ -93,7 +104,7 @@ public class MemberController {
 		return "memberInsert/memberInsert";
 	}
 	@RequestMapping(value="/memberInsert",method=RequestMethod.POST)
-	public String signUpMember(String userid,String password)
+	public String signUpMember(String userid,String email,String password)
 	{		
 		Member member=memberService.selectMember(userid);
 		if(member==null)
@@ -103,6 +114,7 @@ public class MemberController {
 			String uid=UUID.randomUUID().toString();
 			newmember.setUid(uid);
 			newmember.setUsername(userid);
+			newmember.setEmail(email);
 			newmember.setPassword(getHash(password,"SHA256"));
 			
 			memberService.signUpMember(newmember);
@@ -119,23 +131,70 @@ public class MemberController {
 	@RequestMapping(value="/memberProfile",method=RequestMethod.GET)
 	public String memberProfile(HttpSession session,Model model) {
 		String userid=(String)session.getAttribute("userid");
+		
 		if(userid!=null)
 		{
 			Member member=memberService.selectMember(userid);	
 			if(member!=null)
 			{
-				model.addAttribute("username",member.getUsername());
+				
+				model.addAttribute("member",member);
+			
 				return"memberProfile/memberProfile";
 			}
 		}
-		return "home/home";
-		
-		
-		
-		
-	
+		return "redirect:/login";
 	}
-	
+	@RequestMapping(value="/memberProfile",method=RequestMethod.POST)
+	public String memberProfile(HttpSession session,String username,String email,String password)
+	{
+		syslog.getLog("memberProfile Update 진입");
+		String userid=(String)session.getAttribute("userid");
+		if(userid!=null)
+		{
+			Member member=memberService.selectMember(userid);
+			if(member!=null)
+			{
+				
+				if(username!=null&&username!="")member.setUsername(username);
+				if(email!=null&&email!="")member.setEmail(email);
+				if(password!=null&&password!="")member.setPassword(getHash(password,"SHA256"));
+				syslog.getLog("memberProfile Update 적용");	
+				boolean updatelog=memberService.memberUpdate(member);
+				if(updatelog)
+				{
+					syslog.getLog("memberProfile Update 적용");	
+					//업데이트 성공
+					return "redirect:/memberProfile";
+				}
+				syslog.getLog("memberProfile Update 실패");
+				//업데이트 실패
+			}
+			
+		}
+		return "redirect:/memberProfile";
+	}
+	@RequestMapping(value="/memberDelete",method=RequestMethod.POST)
+	public String memberDelete(HttpSession session) {
+		String userid=(String)session.getAttribute("userid");
+		if(userid !=null)
+		{
+			syslog.getLog("POST->memberDelete 세션 확인");
+			try{
+				memberService.memberDelete(userid);
+				session.invalidate();
+				syslog.getLog("POST->memberDelete 성공");
+				return "redirect:/";
+			}catch(Exception e)
+			{
+				syslog.getLog("POST->memberDelete 삭제 실패");
+				
+			}
+		}
+		syslog.getLog("POST->memberDelete 실패");
+		return "redirect:/";
+		
+	}
 	
 	
 	

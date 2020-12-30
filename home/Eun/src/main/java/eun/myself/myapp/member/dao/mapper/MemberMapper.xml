@@ -15,12 +15,29 @@
 	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
-	<select id="memberUpdate" resultType="eun.myself.myapp.member.model.Member">
-		Select * from a
-	</select>
-	<select id="getMember" resultType="eun.myself.myapp.member.model.Member">
-		Select * from a
-	</select>
+	<update id="memberUpdate" parameterType="eun.myself.myapp.member.model.Member">
+	<![CDATA[
+		update 
+		 memberInfo
+	    set  
+	    username=#{username}, 
+	     password=#{password}, 
+	     email=#{email} 
+	    where 
+	    userid=#{userid}
+	]]>
+		
+	</update>
+	<delete id="memberDelete" parameterType="string">
+	<![CDATA[
+		delete
+		 from
+		  memberInfo 
+	     where
+	      userid=#{userid}
+	]]>
+		
+	</delete>
 	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
 		Select 

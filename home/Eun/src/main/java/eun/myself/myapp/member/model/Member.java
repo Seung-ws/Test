@@ -5,8 +5,7 @@ public class Member {
 	String gid;
 	String userid;
 	String username;
-	String password;
-	
+	String password;	
 	String email;
 	String profileimage;
 	public String getProfileimage() {

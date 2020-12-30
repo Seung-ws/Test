@@ -2,7 +2,7 @@
 <c:set var="pathURI" value="${requestScope['javax.servlet.forward.servlet_path']}" /> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="<c:url value='/'/>">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -34,9 +34,9 @@
       
       
       <!-- 세션이 비활성화일 때 로그아웃 없앰 -->
-      <c:if test="${not empty sessionScope.username }">
+      <c:if test="${not empty sessionScope.userid }">
 	      <li class="nav-item">
-	      	<a class="nav-link" href="<c:url value='/login.logout?refurl=${pathURI }'/>">로그아웃</a>
+	      	<a class="nav-link" href="<c:url value='/login.logout?refurl=${pathURI }'/>">logout</a>
 	      </li>
       </c:if>
     </ul>

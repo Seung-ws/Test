@@ -10,5 +10,5 @@ public interface IMemberRepository {
 	void memberSignIn(Member member);
 	void signUpMember(Member member);
 	void memberUpdate(Member member);
-	Member getMember(String uid);
+	void memberDelete(String userid);
 }

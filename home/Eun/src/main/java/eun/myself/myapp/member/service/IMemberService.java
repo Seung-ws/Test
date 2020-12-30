@@ -7,10 +7,10 @@ import eun.myself.myapp.member.model.Member;
 
 public interface IMemberService {
 	Member selectMember(String userid);
-	Member getMember(String uid);
+	boolean memberDelete(String userid);
 	void memberSignOut();
 	void memberSignIn(Member member);
 	void signUpMember(Member member);
-	void memberUpdate(Member member);
+	boolean memberUpdate(Member member);
 	
 }

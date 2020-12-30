@@ -29,7 +29,7 @@
 	  		
             <h2 class="h5 mb-1 font-weight-normal">회원가입</small></h2>
 	  		<!-- 로그인 정보 -->	
-	  		<label for="inputEmail" class="sr-only">Email address</label>
+	  		<label for="inputUserid" class="sr">ID</label>
 	  		
 	  		<div class="input-group">
 	  			<input type="text" name="userid" class="form-control" placeholder="userid" required autofocus>
@@ -39,10 +39,17 @@
 	  		
   			
   			</div>
-  			<!--  이메일 등록  -->
-  			
+  			<!--  이메일 등록  -->  			
+	  		<label for="inputEmail" class="sr">Email address</label>
+	  		
+	  		<div class="input-group">
+	  			<input type="text" name="email" class="form-control" placeholder="email" required>
+	  			<span class="input-group-btn">
+        			<button class="btn btn-primary form-btn" type="button">인증</button>
+      			</span>
+  			</div>
 	  		<!-- 비밀번호 정보 -->
-	  		<label for="inputPassword" class="sr-only">Password</label>
+	  		<label for="inputPassword" class="sr">Password</label>
 	  	
 		  		<input type="password" name="password"  id="inputPassword" class="form-control" placeholder="Password" required>
 		  		<input type="password" name="validpassword"  id="validPassword" class="form-control" placeholder="valid Password" required>
