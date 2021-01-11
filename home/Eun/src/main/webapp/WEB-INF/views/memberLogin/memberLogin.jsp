@@ -23,7 +23,7 @@
 <c:if test="${empty sessionScope.userid }">
 	<div class="loginpanel ">
 		<!-- 로그인을 포스트로 전달 -->
-   		<form class="form-signin" method="post" action="<c:url value='/login'/>" >	
+   		<form class="form-signin" method="post" action="<c:url value='/memberLogin'/>" >	
 	  		<img class="mb-4" src="./resources/memberLogin/images/test.png" alt="" width="72" height="72">
 	  		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 	  		

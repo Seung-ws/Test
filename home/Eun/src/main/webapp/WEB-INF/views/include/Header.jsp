@@ -15,7 +15,7 @@
       </li>
       <li class="nav-item">
       <!-- c:url value=/login == /myapp/login -->
-        <a class="nav-link" href="<c:url value='/login'/>">Link</a>
+        <a class="nav-link" href="<c:url value='/memberLogin'/>">Link</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,7 +36,7 @@
       <!-- 세션이 비활성화일 때 로그아웃 없앰 -->
       <c:if test="${not empty sessionScope.userid }">
 	      <li class="nav-item">
-	      	<a class="nav-link" href="<c:url value='/login.logout?refurl=${pathURI }'/>">logout</a>
+	      	<a class="nav-link" href="<c:url value='/memberLogout?refurl=${pathURI }'/>">logout</a>
 	      </li>
       </c:if>
     </ul>

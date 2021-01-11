@@ -26,7 +26,7 @@ public class MemberController {
 	@Autowired
 	SysLog syslog;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
 	public String memberLogin(HttpSession session) {
 		String userid=(String)session.getAttribute("userid");
 		syslog.getLog("GET-login 진입 & 세션 확인");
@@ -42,7 +42,7 @@ public class MemberController {
 		}
 		
 	}
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value="/memberLogin",method=RequestMethod.POST)
 	public String memberLogin(String remember,String userid,String password,HttpSession session,Model model)	
 	{		
 		//계정정보 탐색
@@ -83,7 +83,7 @@ public class MemberController {
 		session.invalidate();					
 		return "memberLogin/memberLogin";
 	}
-	@RequestMapping(value="/login.logout",method=RequestMethod.GET)
+	@RequestMapping(value="/memberLogout",method=RequestMethod.GET)
 	public String memberLogout(String refurl,HttpSession session) {		
 		//세션초기화
 		session.invalidate();
