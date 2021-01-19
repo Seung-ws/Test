@@ -48,16 +48,16 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public Member selectMember(String userid) {
+	public Member selectMember(String user_id) {
 		// TODO Auto-generated method stub		
-		return memberRepository.selectMember(userid);
+		return memberRepository.selectMember(user_id);
 	}
 
 	@Override
-	public boolean memberDelete(String userid) {
+	public boolean memberDelete(String user_id) {
 		// TODO Auto-generated method stub
 		try {
-			memberRepository.memberDelete(userid);
+			memberRepository.memberDelete(user_id);
 			
 		}catch(Exception e)
 		{

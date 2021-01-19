@@ -1,0 +1,12 @@
+create table memberInfo(
+	user_uid varchar2(36) not null,
+	user_gid varchar2(36) default null,	
+	user_id varchar2(20),
+	user_name varchar2(20) ,
+	user_password varchar2(64) not null,
+	user_email varchar2(50) default null,	
+	user_profileimage varchar2(100) default null,
+	user_createdate TIMESTAMP default sysdate not null,
+	constraint member_user_uid_uk unique(user_uid),
+	constraint member_user_id_pk primary key(user_id)
+);

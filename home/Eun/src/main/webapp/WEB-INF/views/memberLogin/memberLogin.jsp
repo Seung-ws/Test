@@ -20,22 +20,22 @@
 
 
 <!-- session valid -->
-<c:if test="${empty sessionScope.userid }">
+<c:if test="${empty sessionScope.user_id }">
 	<div class="loginpanel ">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signin" method="post" action="<c:url value='/memberLogin'/>" >	
 	  		<img class="mb-4" src="./resources/memberLogin/images/test.png" alt="" width="72" height="72">
 	  		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 	  		
-            <h2 class="h5 mb-1 font-weight-normal"><fmt:message key="${not empty message ? message : 'BLANK'}"/></small></h2>
+            <h2 class="h5 mb-1 font-weight-normal"><fmt:message key="${not empty message ? message : 'BLANK'}"/></h2>
 	  		<!-- 로그인정보 -->	
 	  		<label for="inputEmail" class="sr-only">Email address</label>
-	  		<input type="userid" id="inputEmail" name="userid" class="form-control" placeholder="Email address" required autofocus>
+	  		<input type="text" id="inputEmail" name="user_id" class="form-control" placeholder="userid" required autofocus>
 	  		
 	  		<!-- 로그인정보2 -->
 	  		<label for="inputPassword" class="sr-only">Password</label>
 	  	
-	  		<input type="password" name="password"  id="inputPassword" class="form-control" placeholder="Password" required>
+	  		<input type="password" name="user_password"  id="inputPassword" class="form-control" placeholder="Password" required>
 	  		<div class="checkbox mb-3">
     			<label>
 	      			<input type="checkbox" name="remember" value="remember-me"> Remember me

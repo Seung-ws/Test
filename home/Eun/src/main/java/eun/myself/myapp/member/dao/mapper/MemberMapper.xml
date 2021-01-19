@@ -6,9 +6,22 @@
 	<![CDATA[
 		insert into 
 			memberInfo 
-			(uid,gid,userid,username,password,email,profileimage)
+			 (
+			 user_uid,
+			 user_id,
+			 user_name,
+			 user_password,
+			 user_email
+			 ) 
 		values
-			(#{uid},#{gid},#{username},#{username},#{password},#{email},#{profileimage})
+			 (
+			#{user_uid},
+			#{user_id},
+			#{user_name},
+			#{user_password},
+			#{user_email}
+				
+			 )
 	]]>
 	</insert>
 	
@@ -20,11 +33,11 @@
 		update 
 		 memberInfo
 	    set  
-	    username=#{username}, 
-	     password=#{password}, 
-	     email=#{email} 
+	    user_name=#{user_name}, 
+	    user_password=#{user_password}, 
+	    user_email=#{user_email} 
 	    where 
-	    userid=#{userid}
+	    user_id=#{user_id}
 	]]>
 		
 	</update>
@@ -34,23 +47,23 @@
 		 from
 		  memberInfo 
 	     where
-	      userid=#{userid}
+	      user_userid=#{user_userid}
 	]]>
 		
 	</delete>
 	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
 		Select 
-			uid,
-			gid,
-			userid,
-			username,
-			password,
-			email,
-			profileimage
+			user_uid,
+			user_gid,
+			user_id,
+			user_name,
+			user_password,
+			user_email,
+			user_profileimage
 		 from
 		  memberInfo
-	     where userid=#{userid}
+	     where user_id=#{user_id}
    	]]>
 	</select>
 </mapper>
