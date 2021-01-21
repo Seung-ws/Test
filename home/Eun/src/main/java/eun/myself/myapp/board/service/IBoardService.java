@@ -6,29 +6,29 @@ import eun.myself.myapp.board.model.Board;
 import eun.myself.myapp.board.model.BoardUploadFile;
 
 public interface IBoardService {
-	void insertArticle(Board boardId);
-	void insertArticle(Board boardId, BoardUploadFile file);
+	void insertArticle(Board board);
+	void insertArticle(Board board, BoardUploadFile file);
 	
-	List<Board> selectArticleListByCategory(int categoryId, int page);
-	List<Board> selectArticleListByCategory(int categoryId);
+	List<Board> selectArticleListByCategory(int category_id, int page);
+	List<Board> selectArticleListByCategory(int category_id);
 	
-	Board selectArticle(int boardId);
+	Board selectArticle(int board_id);
 	
-	BoardUploadFile getFile(int fileId);
+	BoardUploadFile getFile(int file_id);
 	
 	void replyArticle(Board board);
 	void replyArticle(Board board, BoardUploadFile file);
 
-	String getPassword(int boardId);
+	String getPassword(int board_id);
 	
 	void updateArticle(Board board);
 	void updateArticle(Board board, BoardUploadFile file);
 	
-	Board selectDeleteArticle(int boardId);
-	void deleteArticle(int boardId, int replyNumber);
+	Board selectDeleteArticle(int board_id);
+	void deleteArticle(int board_id, int reply_Number);
 	
 	int selectTotalArticleCount();
-	int selectTotalArticleCountByCategoryId(int categoryId);
+	int selectTotalArticleCountByCategoryId(int category_id);
 	
 	List<Board> searchListByContentKeyword(String keyword, int page);
 	int selectTotalArticleCountByKeyword(String keyword);
