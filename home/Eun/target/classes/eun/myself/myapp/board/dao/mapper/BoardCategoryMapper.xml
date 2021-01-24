@@ -7,7 +7,7 @@
 	<select id="selectAllCategory" resultType="eun.myself.myapp.board.model.BoardCategory">
 	<![CDATA[
 		SELECT 
-			CATEGORY_ID				AS categoryId, 
+			CATEGORY_ID				AS category_id, 
 			CATEGORY_CLASS1			AS categoryClass1,
 			CATEGORY_CLASS2			AS categoryClass2,
 			CATEGORY_NAME			AS categoryName, 
@@ -21,7 +21,7 @@
 	<select id="selectAllCategoryByClass1" parameterType="int" resultType="eun.myself.myapp.board.model.BoardCategory">
 	<![CDATA[
 		SELECT 
-			CATEGORY_ID				AS categoryId, 
+			CATEGORY_ID				AS category_id, 
 			CATEGORY_CLASS1			AS categoryClass1,
 			CATEGORY_CLASS2			AS categoryClass2,
 			CATEGORY_NAME			AS categoryName, 
@@ -36,7 +36,7 @@
 	<select id="selectMaxFileId" parameterType="int" resultType="int">
 	<![CDATA[
 		SELECT 
-			NVL(MAX(CATEGORY_ID),0) AS "categoryId"
+			NVL(MAX(CATEGORY_ID),0) AS "category_id"
 		FROM BOARD_CATEGORY
 	]]>
 	</select>
@@ -60,7 +60,7 @@
 			CATEGORY_DESCRIPTION = #{categoryDescription}, 
 			CATEGORY_ORDER = #{categoryOrder}
 		WHERE
-			categoryId = #{categoryId}
+			category_id = #{category_id}
 	]]>
 	</update>
 
@@ -68,7 +68,7 @@
 	<![CDATA[
 		DELETE BOARD_CATEGORY
 		WHERE
-			categoryId = #{categoryId}
+			category_id = #{category_id}
 	]]>
 	</delete>
 </mapper>

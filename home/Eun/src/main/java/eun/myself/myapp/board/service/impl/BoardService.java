@@ -65,68 +65,99 @@ public class BoardService implements IBoardService{
 
 	@Transactional
 	public void replyArticle(Board board) {
-		//리플순서를 업데이트하고 게시판 아이디와 숫자
-		
+		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
+		boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number());
+		board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
+		board.setReply_number(board.getReply_number()+1);
+		board.setReply_step(board.getReply_step()+1);
+		boardRepository.replyArticle(board);
 	}
 
-	@Override
+	@Transactional
 	public void replyArticle(Board board, BoardUploadFile file) {
-		// TODO Auto-generated method stub
+		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
+		boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number());
+		board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
+		board.setReply_number(board.getReply_number()+1);
+		board.setReply_step(board.getReply_step()+1);
+		boardRepository.replyArticle(board);
+		if(file != null && file.getFile_name() != null && !file.getFile_name().equals("")) {
+        	file.setBoard_id(board.getBoard_id());
+        	boardRepository.insertFileData(file);
+        }
 		
 	}
 
 	@Override
 	public String getPassword(int board_id) {
-		// TODO Auto-generated method stub
-		return null;
+		// 게시물 비밀번호를 가져온다
+		return boardRepository.getPassword(board_id);
 	}
 
 	@Override
 	public void updateArticle(Board board) {
-		// TODO Auto-generated method stub
-		
+		// 게시물을 업데이트 한다. 파일없음
+		boardRepository.updateArticle(board);
 	}
 
-	@Override
+	@Transactional
 	public void updateArticle(Board board, BoardUploadFile file) {
-		// TODO Auto-generated method stub
-		
+		// 게시물을 업데이트한다. 파일 있음
+		boardRepository.updateArticle(board);
+        if(file != null && file.getFile_name() != null && !file.getFile_name().equals("")) {
+        	file.setBoard_id(board.getBoard_id());
+//        	System.out.println(file.toString());
+        	if(file.getFile_id()>0) {
+        		boardRepository.updateFileData(file);
+        	}else {
+        		boardRepository.insertFileData(file);
+        	}
+        }
 	}
 
 	@Override
 	public Board selectDeleteArticle(int board_id) {
-		// TODO Auto-generated method stub
-		return null;
+		// 게시물을 지운다. 
+		return boardRepository.selectDeleteArticle(board_id);
 	}
 
-	@Override
+	@Transactional
 	public void deleteArticle(int board_id, int reply_Number) {
-		// TODO Auto-generated method stub
-		
+		// 게시물을 지우면 답글도 지우고 없으면 게시물만 지운다.
+		if(reply_Number>0) {
+			boardRepository.deleteReplyFileData(board_id);
+			boardRepository.deleteArticleByBoardId(board_id);
+		}else if(reply_Number==0){
+			boardRepository.deleteFileData(board_id);
+			boardRepository.deleteArticleByMasterId(board_id);
+		}else {
+			throw new RuntimeException("WRONG_REPLYNUMBER");
+		}
 	}
 
 	@Override
 	public int selectTotalArticleCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		// 전체 게시물의 숫자를 반환한다.
+		return boardRepository.selectTotalArticleCount();
 	}
 
 	@Override
 	public int selectTotalArticleCountByCategoryId(int category_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 특정 카테고리의 게시물 숫자를 반환한다.
+		return boardRepository.selectTotalArticleCountByCategoryId(category_id);
 	}
 
 	@Override
 	public List<Board> searchListByContentKeyword(String keyword, int page) {
-		// TODO Auto-generated method stub
-		return null;
+		// 키워드 검색 후 해당 페이지범위만큼 반환한다.
+		int start = (page-1) * 10;
+		return boardRepository.searchListByContentKeyword("%"+keyword+"%", start, start+10);
 	}
 
 	@Override
 	public int selectTotalArticleCountByKeyword(String keyword) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 키워드 검색시 게시물 수를 반환한다.
+		return boardRepository.selectTotalArticleCountByKeyword("%"+keyword+"%");
 	}
 	
 	

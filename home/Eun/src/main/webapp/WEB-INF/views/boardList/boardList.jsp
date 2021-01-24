@@ -55,14 +55,14 @@
 		<tr>
 			<c:set var="seq" value="${seq + 1}" scope="page"/>
 			<!-- td class="pc">${seq}</td-->
-			<td>${board.boardId}<!-- (${board.categoryId})--></td>
+			<td>${board.board_id}<!-- (${board.category_id})--></td>
 			<td class="pc">${board.writer}</td>
 			<td>
-			<jk:reply replynum="${board.replyNumber}" replystep="${board.replyStep}"/>
-			<a href='<c:url value="/board/${board.boardId}"/>'>${board.title}</a>
+			<jk:reply reply_num="${board.reply_number}" reply_step="${board.reply_step}"/>
+			<a href='<c:url value="/board/${board.board_id}"/>'>${board.title}</a>
 			</td>
 			<td class="pc"><fmt:formatDate value="${board.writeDate}" pattern="YYYY-MM-dd"/></td>
-			<td class="pc">${board.readCount}</td>
+			<td class="pc">${board.read_count}</td>
 			<!-- td class="pc"><span class="glyphicon glyphicon-file"></span-->
 		</tr>
 		</c:forEach>
@@ -71,10 +71,10 @@
 		<table class="table">
 		<tr>
 			<td align="left">
-				<jk:paging categoryId="${categoryId}" totalPageCount="${totalPageCount}" nowPage="${page}"/>
+				<jk:paging category_id="${category_id}" totalPageCount="${totalPageCount}" nowPage="${page}"/>
 			</td>
 			<td align="right">
-				<a href='<c:url value="/board/write/${categoryId}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+				<a href='<c:url value="/board/write/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
 			</td>
 		</tr>
 		</table>

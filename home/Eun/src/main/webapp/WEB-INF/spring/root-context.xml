@@ -39,6 +39,7 @@
 	<mybatis-spring:scan 	base-package="eun.myself.myapp.member.dao"/>
 	<context:component-scan base-package="eun.myself.myapp.member.service" />
 	<!-- Board -->
+	<mybatis-spring:scan    base-package="eun.myself.myapp.board.dao"/>
 	<context:component-scan base-package="eun.myself.myapp.board.service"/>
 	
 </beans>

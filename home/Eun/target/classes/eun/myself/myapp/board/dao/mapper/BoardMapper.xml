@@ -7,15 +7,15 @@
 	<select id="selectArticleListByCategory" parameterType="map" resultType="eun.myself.myapp.board.model.Board">
 	<![CDATA[
 		SELECT 
-			BOARD_ID 				AS "boardId", 
-			CATEGORY_ID 			AS "categoryId", 
+			BOARD_ID 				AS "board_id", 
+			CATEGORY_ID 			AS "category_id", 
 			WRITER					AS "writer", 
-			EMAIL					AS "email", 
+			WRITER_ID					AS "WRITER_ID", 
 			TITLE					AS "title", 
 			WRITE_DATE				AS "writeDate", 
-			MASTER_ID 				AS "masterId", 
-			REPLY_NUMBER 			AS "replyNumber", 
-			REPLY_STEP				AS "replyStep", 
+			MASTER_ID 				AS "master_id", 
+			REPLY_NUMBER 			AS "reply_number", 
+			REPLY_STEP				AS "reply_Step", 
 			READ_COUNT				AS "readCount", 
 			RNUM+1 					AS "seq"
 	    FROM (
@@ -23,7 +23,7 @@
 	    		BOARD_ID, 
 	    		CATEGORY_ID, 
 	    		WRITER, 
-	    		EMAIL, 
+	    		WRITER_ID, 
 	    		TITLE, 
 	    		WRITE_DATE, 
 	    		MASTER_ID, 
@@ -33,7 +33,7 @@
 	    		ROWNUM AS RNUM
 	    	FROM (
 	    		SELECT * FROM BOARD
-	    		WHERE CATEGORY_ID=#{categoryId}
+	    		WHERE CATEGORY_ID=#{category_id}
 	    		ORDER BY MASTER_ID DESC, REPLY_NUMBER, REPLY_STEP
 	    	)
 	    )
@@ -44,24 +44,24 @@
 	<select id="selectArticle" parameterType="int" resultType="eun.myself.myapp.board.model.Board">
 	<![CDATA[
 		SELECT 
-			BOARD.BOARD_ID				AS "boardId", 
-			CATEGORY_ID					AS "categoryId", 
+			BOARD.BOARD_ID				AS "board_id", 
+			CATEGORY_ID					AS "category_id", 
 			WRITER						AS "writer", 
-			EMAIL						AS "email", 
+			WRITER_ID						AS "WRITER_ID", 
 			TITLE						AS "title", 
 			CONTENT						AS "content", 
 			READ_COUNT					AS "readCount", 
 			WRITE_DATE					AS "writeDate", 
-			MASTER_ID					AS "masterId", 
-			REPLY_NUMBER				AS "replyNumber", 
-			REPLY_STEP					AS "replyStep", 
+			MASTER_ID					AS "master_id", 
+			REPLY_NUMBER				AS "reply_number", 
+			REPLY_STEP					AS "reply_step", 
 			BOARD_UPLOAD_FILE.FILE_ID			AS "fileId", 
 			BOARD_UPLOAD_FILE.FILE_NAME			AS "fileName", 
 			BOARD_UPLOAD_FILE.FILE_SIZE			AS "fileSize",
 			BOARD_UPLOAD_FILE.FILE_CONTENT_TYPE	AS "fileContentType"
 		FROM BOARD LEFT OUTER JOIN BOARD_UPLOAD_FILE 
 			ON BOARD.BOARD_ID=BOARD_UPLOAD_FILE.BOARD_ID 
-		WHERE BOARD.BOARD_ID=#{boardId}
+		WHERE BOARD.BOARD_ID=#{board_id}
 	]]>
 	</select>
 	
@@ -69,7 +69,7 @@
 	<![CDATA[
 		UPDATE BOARD 
 			SET READ_COUNT = READ_COUNT+1 
-		WHERE BOARD_ID=#{boardId}
+		WHERE BOARD_ID=#{board_id}
 	]]>
 	</update>
 	
@@ -93,9 +93,9 @@
 	<![CDATA[
 		INSERT INTO 
 		BOARD 
-			(BOARD_ID, CATEGORY_ID, WRITER, EMAIL, PASSWORD, TITLE, CONTENT, WRITE_DATE, MASTER_ID, REPLY_NUMBER, REPLY_STEP)  
+			(BOARD_ID, CATEGORY_ID, WRITER, writer_id, PASSWORD, TITLE, CONTENT, WRITE_DATE, MASTER_ID, REPLY_NUMBER, REPLY_STEP)  
 		VALUES 
-			(#{boardId}, #{categoryId}, #{writer}, #{email}, #{password}, #{title}, #{content}, SYSDATE, #{boardId}, 0, 0)
+			(#{board_id}, #{category_id}, #{writer}, #{writer_id}, #{password}, #{title}, #{content}, SYSDATE, #{board_id}, 0, 0)
 	]]>
 	</insert>
 	
@@ -105,7 +105,7 @@
 		BOARD_UPLOAD_FILE 
 			(FILE_ID, BOARD_ID, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_DATA) 
 		VALUES 
-			(#{fileId}, #{boardId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileData})
+			(#{fileId}, #{board_id}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileData})
 	]]>
 	</insert>
 	
@@ -113,7 +113,7 @@
 	<![CDATA[
 		SELECT 
 			FILE_ID				AS "fileId", 
-			BOARD_ID			AS "boardId", 
+			BOARD_ID			AS "board_id", 
 			FILE_NAME			AS "fileName", 
 			FILE_SIZE			AS "fileSize", 
 			FILE_CONTENT_TYPE	AS "fileContentType", 
@@ -130,7 +130,7 @@
 		SET 
 			REPLY_NUMBER = REPLY_NUMBER + 1 
 		WHERE 
-			MASTER_ID = #{masterId} AND REPLY_NUMBER > #{replyNumber}
+			MASTER_ID = #{master_id} AND REPLY_NUMBER > #{reply_number}
 	]]>
 	</insert>
 
@@ -138,9 +138,29 @@
 	<![CDATA[
 		INSERT INTO 
 		BOARD 
-			(BOARD_ID, CATEGORY_ID, WRITER, EMAIL, PASSWORD, TITLE, CONTENT, WRITE_DATE, MASTER_ID, REPLY_NUMBER, REPLY_STEP)  
+			(BOARD_ID,
+			 CATEGORY_ID,
+			  WRITER, 
+			  writer_id, 
+			  PASSWORD, 
+			  TITLE, 
+			  CONTENT, 
+			  WRITE_DATE, 
+			  MASTER_ID, 
+			  REPLY_NUMBER, 
+			  REPLY_STEP)  
 		VALUES 
-			(#{boardId}, #{categoryId}, #{writer}, #{email}, #{password}, #{title}, #{content}, SYSDATE, #{masterId}, #{replyNumber}, #{replyStep})
+			(#{board_id},
+			 #{category_id}, 
+			 #{writer}, 
+			 #{writer_id}, 
+			 #{password}, 
+			 #{title}, 
+			 #{content}, 
+			 SYSDATE, 
+			 #{master_id}, 
+			 #{reply_number}, 
+			 #{reply_step})
 	]]>
 	</insert>
 		
@@ -148,7 +168,7 @@
 	<![CDATA[
 		SELECT PASSWORD 
 		FROM BOARD 
-		WHERE BOARD_ID=#{boardId}
+		WHERE BOARD_ID=#{board_id}
 	]]>
 	</select>
 	
@@ -157,10 +177,10 @@
 		UPDATE 
 			BOARD 
 		SET 
-			CATEGORY_ID=#{categoryId}, WRITER=#{writer}, EMAIL=#{email}, TITLE=#{title}, 
+			CATEGORY_ID=#{category_id}, WRITER=#{writer}, writer_id=#{writer_id}, TITLE=#{title}, 
 			CONTENT=#{content}, WRITE_DATE=SYSDATE 
 		WHERE 
-			BOARD_ID=#{boardId}
+			BOARD_ID=#{board_id}
 	]]>
 	</update>
 
@@ -178,13 +198,13 @@
 	<select id="selectDeleteArticle" parameterType="int" resultType="eun.myself.myapp.board.model.Board">
 	<![CDATA[
 		SELECT 
-			CATEGORY_ID		AS "categoryId", 
-			MASTER_ID		AS "masterId", 
-			REPLY_NUMBER	AS "replyNumber"
+			CATEGORY_ID		AS "category_id", 
+			MASTER_ID		AS "master_id", 
+			REPLY_NUMBER	AS "reply_number"
 		FROM
 			BOARD
 		WHERE 
-			BOARD_ID = #{boardId}
+			BOARD_ID = #{board_id}
 	]]>
 	</select>
 	
@@ -192,7 +212,7 @@
 	<![CDATA[
 		DELETE FROM BOARD_UPLOAD_FILE 
 		WHERE EXISTS  ( SELECT BOARD_ID FROM BOARD 
-						WHERE BOARD.MASTER_ID=#{boardId} AND BOARD.BOARD_ID = BOARD_UPLOAD_FILE.BOARD_ID )
+						WHERE BOARD.MASTER_ID=#{board_id} AND BOARD.BOARD_ID = BOARD_UPLOAD_FILE.BOARD_ID )
 	]]>
 	</delete>
 
@@ -200,7 +220,7 @@
 	<![CDATA[
 		DELETE FROM BOARD_UPLOAD_FILE 
 		WHERE EXISTS  ( SELECT BOARD_ID FROM BOARD 
-						WHERE BOARD.BOARD_ID=#{boardId} AND BOARD.BOARD_ID = BOARD_UPLOAD_FILE.BOARD_ID )
+						WHERE BOARD.BOARD_ID=#{board_id} AND BOARD.BOARD_ID = BOARD_UPLOAD_FILE.BOARD_ID )
 	]]>
 	</delete>
 
@@ -208,14 +228,14 @@
 		DELETE FROM 
 			BOARD 
 		WHERE 
-			BOARD_ID=#{boardId}
+			BOARD_ID=#{board_id}
 	</delete>
 
 	<delete id="deleteArticleByMasterId" parameterType="map">
 		DELETE FROM 
 			BOARD 
 		WHERE 
-			MASTER_ID=#{boardId}
+			MASTER_ID=#{board_id}
 	</delete>
 	
 	<select id="selectTotalArticleCount" resultType="int">
@@ -229,7 +249,7 @@
 	<![CDATA[
 		SELECT COUNT(BOARD_ID) AS "count"
 		FROM BOARD 
-		WHERE CATEGORY_ID=#{categoryId}	
+		WHERE CATEGORY_ID=#{category_id}	
 	]]>
 	</select>
 	
@@ -245,15 +265,15 @@
 	<select id="searchListByContentKeyword" parameterType="hashmap" resultType="eun.myself.myapp.board.model.Board">
 	<![CDATA[
 		SELECT 
-			BOARD_ID 				AS "boardId", 
-			CATEGORY_ID 			AS "categoryId", 
+			BOARD_ID 				AS "board_id", 
+			CATEGORY_ID 			AS "category_id", 
 			WRITER					AS "writer", 
-			EMAIL					AS "email", 
+			writer_id					AS "writer_id", 
 			TITLE					AS "title", 
 			WRITE_DATE				AS "writeDate", 
-			MASTER_ID 				AS "masterId", 
-			REPLY_NUMBER 			AS "replyNumber", 
-			REPLY_STEP				AS "replyStep", 
+			MASTER_ID 				AS "master_id", 
+			REPLY_NUMBER 			AS "reply_number", 
+			REPLY_STEP				AS "reply_step", 
 			READ_COUNT				AS "readCount", 
 			RNUM+1 					AS "seq"
 	    FROM (
@@ -261,7 +281,7 @@
 	    		BOARD_ID, 
 	    		CATEGORY_ID, 
 	    		WRITER, 
-	    		EMAIL, 
+	    		writer_id, 
 	    		TITLE, 
 	    		WRITE_DATE, 
 	    		MASTER_ID, 
