@@ -61,7 +61,8 @@ public class MemberController {
 				//로그인 성공
 				if(dbPassword.equals(getHash(user_password,"SHA256")))
 				{
-					session.setAttribute("user_id", user_id);
+					session.setAttribute("user_id", member.getUser_id());
+					session.setAttribute("user_name",member.getUser_name());
 	
 					if(remember!=null)
 					{

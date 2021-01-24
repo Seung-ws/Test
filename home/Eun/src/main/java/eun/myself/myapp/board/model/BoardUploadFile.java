@@ -10,6 +10,7 @@ public class BoardUploadFile {
 	private long file_size;
 	private String file_content_type;
 	private byte[] file_data;
+	
 	public int getFile_id() {
 		return file_id;
 	}

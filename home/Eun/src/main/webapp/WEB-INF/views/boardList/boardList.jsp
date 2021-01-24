@@ -74,7 +74,7 @@
 				<jk:paging category_id="${category_id}" totalPageCount="${totalPageCount}" nowPage="${page}"/>
 			</td>
 			<td align="right">
-				<a href='<c:url value="/board/write/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+				<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
 			</td>
 		</tr>
 		</table>

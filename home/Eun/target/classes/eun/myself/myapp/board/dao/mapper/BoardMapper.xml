@@ -12,11 +12,11 @@
 			WRITER					AS "writer", 
 			WRITER_ID					AS "WRITER_ID", 
 			TITLE					AS "title", 
-			WRITE_DATE				AS "writeDate", 
+			WRITE_DATE				AS "write_Date", 
 			MASTER_ID 				AS "master_id", 
 			REPLY_NUMBER 			AS "reply_number", 
 			REPLY_STEP				AS "reply_Step", 
-			READ_COUNT				AS "readCount", 
+			READ_COUNT				AS "read_Count", 
 			RNUM+1 					AS "seq"
 	    FROM (
 	    	SELECT 
@@ -50,11 +50,12 @@
 			WRITER_ID						AS "WRITER_ID", 
 			TITLE						AS "title", 
 			CONTENT						AS "content", 
-			READ_COUNT					AS "readCount", 
+			READ_COUNT					AS "read_Count", 
 			WRITE_DATE					AS "writeDate", 
 			MASTER_ID					AS "master_id", 
 			REPLY_NUMBER				AS "reply_number", 
 			REPLY_STEP					AS "reply_step", 
+			REPLY_PARENTS_NUMBER		AS "reply_parents_number",
 			BOARD_UPLOAD_FILE.FILE_ID			AS "fileId", 
 			BOARD_UPLOAD_FILE.FILE_NAME			AS "fileName", 
 			BOARD_UPLOAD_FILE.FILE_SIZE			AS "fileSize",
@@ -73,13 +74,40 @@
 	]]>
 	</update>
 	
-	<select id="selectMaxArticleNo" parameterType="int" resultType="int">
+	
+	
+	<select id="selectMaxArticleNo" resultType="int">
 	<![CDATA[
 		SELECT 
 			NVL(MAX(BOARD_ID),0) AS "articleNo"
 		FROM BOARD
 	]]>
 	</select>
+	
+	<select id="selectMaxReplyNo" parameterType="int" resultType="int">
+	<![CDATA[
+		SELECT 
+			NVL(MAX(reply_number),0) AS "replyNo"
+		FROM BOARD where master_id=#{master_id}
+	]]>
+	</select>
+	<select id="selectCustomMaxReplyNo" parameterType="map" resultType="int">
+	<![CDATA[
+		SELECT 
+		NVL(MAX(reply_number),0) AS "replyNo"
+		FROM BOARD 
+		where master_id=#{master_id} and reply_step=#{reply_step} and reply_parents_number=#{reply_parents_number}
+	]]>
+	</select>
+	<select id="selectMaxSameStep" parameterType="map" resultType="int">
+	<![CDATA[
+		SELECT 
+			count(*)
+		FROM BOARD where master_id=#{master_id} and reply_step=#{reply_step} and reply_parents_number=#{reply_parents_number}
+	]]>
+	</select>
+
+	
 
 	<select id="selectMaxFileId" parameterType="int" resultType="int">
 	<![CDATA[
@@ -93,9 +121,34 @@
 	<![CDATA[
 		INSERT INTO 
 		BOARD 
-			(BOARD_ID, CATEGORY_ID, WRITER, writer_id, PASSWORD, TITLE, CONTENT, WRITE_DATE, MASTER_ID, REPLY_NUMBER, REPLY_STEP)  
+			(BOARD_ID,
+			 CATEGORY_ID, 
+			 WRITER, 
+			 writer_id, 
+			 board_password, 
+			 TITLE, 
+			 CONTENT, 
+			 WRITE_DATE, 
+			 MASTER_ID, 
+			 REPLY_NUMBER, 			 
+			 REPLY_STEP,
+			 reply_parents_number
+			 )  
 		VALUES 
-			(#{board_id}, #{category_id}, #{writer}, #{writer_id}, #{password}, #{title}, #{content}, SYSDATE, #{board_id}, 0, 0)
+			(#{board_id},
+			 #{category_id}, 
+			 #{writer}, 
+			 #{writer_id}, 
+			 #{board_password}, 
+			 #{title}, 
+			 #{content}, 
+			 SYSDATE, 
+			 #{board_id}, 
+			 0, 
+			 0,
+			 -1
+			 
+			 )
 	]]>
 	</insert>
 	
@@ -105,21 +158,21 @@
 		BOARD_UPLOAD_FILE 
 			(FILE_ID, BOARD_ID, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_DATA) 
 		VALUES 
-			(#{fileId}, #{board_id}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileData})
+			(#{file_id}, #{board_id}, #{file_name}, #{file_size}, #{file_content_type}, #{file_data})
 	]]>
 	</insert>
 	
 	<select id="getFile" parameterType="int" resultType="eun.myself.myapp.board.model.BoardUploadFile">
 	<![CDATA[
 		SELECT 
-			FILE_ID				AS "fileId", 
+			FILE_ID				AS "file_id", 
 			BOARD_ID			AS "board_id", 
-			FILE_NAME			AS "fileName", 
-			FILE_SIZE			AS "fileSize", 
-			FILE_CONTENT_TYPE	AS "fileContentType", 
-			FILE_DATA 			AS "fileData"
+			FILE_NAME			AS "file_name", 
+			FILE_SIZE			AS "file_size", 
+			FILE_CONTENT_TYPE	AS "file_content_type", 
+			FILE_DATA 			AS "file_data"
 		FROM BOARD_UPLOAD_FILE 
-		WHERE FILE_ID=#{fileId}
+		WHERE FILE_ID=#{file_id}
 	]]>
 	</select>
 
@@ -128,7 +181,19 @@
 		UPDATE 
 			BOARD 
 		SET 
-			REPLY_NUMBER = REPLY_NUMBER + 1 
+			REPLY_NUMBER = REPLY_NUMBER + 1
+			
+		WHERE 
+			MASTER_ID = #{master_id} AND REPLY_NUMBER > #{reply_number}
+	]]>
+	</insert>
+	<insert id="test" parameterType="map">
+	<![CDATA[
+		UPDATE 
+			BOARD 
+		SET 
+			REPLY_NUMBER = REPLY_NUMBER - 1
+			
 		WHERE 
 			MASTER_ID = #{master_id} AND REPLY_NUMBER > #{reply_number}
 	]]>
@@ -142,31 +207,35 @@
 			 CATEGORY_ID,
 			  WRITER, 
 			  writer_id, 
-			  PASSWORD, 
+			  board_password, 
 			  TITLE, 
 			  CONTENT, 
 			  WRITE_DATE, 
 			  MASTER_ID, 
 			  REPLY_NUMBER, 
-			  REPLY_STEP)  
+			  REPLY_STEP,
+			  REPLY_PARENTS_NUMBER
+			  )  
 		VALUES 
 			(#{board_id},
 			 #{category_id}, 
 			 #{writer}, 
 			 #{writer_id}, 
-			 #{password}, 
+			 #{board_password}, 
 			 #{title}, 
 			 #{content}, 
 			 SYSDATE, 
 			 #{master_id}, 
 			 #{reply_number}, 
-			 #{reply_step})
+			 #{reply_step},
+			 #{reply_parents_number}
+			 )
 	]]>
 	</insert>
 		
 	<select id="getPassword" parameterType="int" resultType="string">
 	<![CDATA[
-		SELECT PASSWORD 
+		SELECT board_password 
 		FROM BOARD 
 		WHERE BOARD_ID=#{board_id}
 	]]>

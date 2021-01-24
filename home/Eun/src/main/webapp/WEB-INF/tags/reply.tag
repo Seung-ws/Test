@@ -9,7 +9,7 @@ if(reply_num==0){
 } else {
 	//out.print("메인글 아님");
     for(int i=0; i<reply_step; i++) {
-        out.print("&nbsp;");  //공백
+        out.print("&nbsp;&nbsp;");  //공백
     }
     out.print("└");//답변글임을 나타냄 
 }//end if

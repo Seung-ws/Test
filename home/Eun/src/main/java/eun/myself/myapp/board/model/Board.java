@@ -15,18 +15,20 @@ public class Board {
 	private String board_password;
 	private String title;
 	private String content;
-	private Timestamp writeDate;
+	private Timestamp write_date;
 	//게시물 레벨 리플 정보
 	private int master_id;
-	private int read_count;
-	private int reply_number;
-	private int reply_step;
+	private int reply_parents_number;
+
+	private int read_count;//읽기 정보
+	private int reply_number;// 같은 리플의 수준에서의 순서
+	private int reply_step;//리플의 수준 
 	private int seq;
 	private int page;
 	private BoardCategory category;
 	//파일정보
 	private MultipartFile file;
-	private String file_id;
+	private int file_id;
 	private String file_name;
 	private long file_size;
 	private String file_content_type;
@@ -75,10 +77,10 @@ public class Board {
 		this.content = content;
 	}
 	public Timestamp getWriteDate() {
-		return writeDate;
+		return write_date;
 	}
-	public void setWriteDate(Timestamp writeDate) {
-		this.writeDate = writeDate;
+	public void setWriteDate(Timestamp write_date) {
+		this.write_date = write_date;
 	}
 	public int getMaster_id() {
 		return master_id;
@@ -128,10 +130,10 @@ public class Board {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-	public String getFile_id() {
+	public int getFile_id() {
 		return file_id;
 	}
-	public void setFile_id(String file_id) {
+	public void setFile_id(int file_id) {
 		this.file_id = file_id;
 	}
 	public String getFile_name() {
@@ -153,6 +155,17 @@ public class Board {
 		this.file_content_type = file_content_type;
 	}
 	
-	
+	public Timestamp getWrite_date() {
+		return write_date;
+	}
+	public void setWrite_date(Timestamp write_date) {
+		this.write_date = write_date;
+	}
+	public int getReply_parents_number() {
+		return reply_parents_number;
+	}
+	public void setReply_parents_number(int reply_parents_number) {
+		this.reply_parents_number = reply_parents_number;
+	}
 	
 }

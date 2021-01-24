@@ -24,7 +24,6 @@ public class BoardService implements IBoardService{
 	public void insertArticle(Board board) {
 		// 보드의 갯수를 산정해서 아이디를 겹치지 않게 지정하고 삽입한다.
 		board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
-		
 		boardRepository.insertArticle(board);
 	}
 
@@ -66,17 +65,40 @@ public class BoardService implements IBoardService{
 	@Transactional
 	public void replyArticle(Board board) {
 		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
-		boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number());
-		board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
-		board.setReply_number(board.getReply_number()+1);
-		board.setReply_step(board.getReply_step()+1);
+		
+		if(board.getReply_step()>0)
+		{
+			int sum =boardRepository.selectMaxSameStep(board.getMaster_id(),
+					board.getReply_step()+1, board.getReply_number());
+			int reply_no=boardRepository.selectCustomMaxReplyNo(board.getMaster_id(),
+					board.getReply_step()+1, board.getReply_number());
+			System.out.println("확인용 sum : "+sum);
+			System.out.println("확인용 reply_no : "+reply_no);
+			System.out.println("확인용 getReply_number : "+board.getReply_number());
+			
+			boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number()+sum);	
+			board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
+			board.setReply_parents_number(board.getReply_number());
+			board.setReply_number(board.getReply_number()+1+sum);
+			board.setReply_step(board.getReply_step()+1);	
+		
+		}
+		else {
+			//답글이 없는 게시물의 때 갱신방식
+			board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
+			board.setReply_parents_number(board.getReply_number());
+			board.setReply_number(boardRepository.selectMaxReplyNo(board.getMaster_id())+1);
+			board.setReply_step(board.getReply_step()+1);	
+		}
+		
+		
 		boardRepository.replyArticle(board);
 	}
 
 	@Transactional
 	public void replyArticle(Board board, BoardUploadFile file) {
 		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
-		boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number());
+		boardRepository.updateReplyNumber(board.getMaster_id(), board.getReply_number());	
 		board.setBoard_id(boardRepository.selectMaxArticleNo()+1);
 		board.setReply_number(board.getReply_number()+1);
 		board.setReply_step(board.getReply_step()+1);
@@ -118,15 +140,23 @@ public class BoardService implements IBoardService{
 	@Override
 	public Board selectDeleteArticle(int board_id) {
 		// 게시물을 지운다. 
+		System.out.println("선택게시물지우기");
+		
 		return boardRepository.selectDeleteArticle(board_id);
 	}
 
 	@Transactional
-	public void deleteArticle(int board_id, int reply_Number) {
+	public void deleteArticle(int board_id,int master_id, int reply_Number) {
 		// 게시물을 지우면 답글도 지우고 없으면 게시물만 지운다.
+		System.out.println("게시물지우기");
 		if(reply_Number>0) {
+			System.out.println("master_id : "+master_id);
+			System.out.println("reply_Number : "+reply_Number);
+			
+			boardRepository.test(master_id,reply_Number);
 			boardRepository.deleteReplyFileData(board_id);
 			boardRepository.deleteArticleByBoardId(board_id);
+			
 		}else if(reply_Number==0){
 			boardRepository.deleteFileData(board_id);
 			boardRepository.deleteArticleByMasterId(board_id);

@@ -28,10 +28,10 @@
 	<tr class="pc">
 		<td colspan=2 align="right">
 		<a href='<c:url value="/boardList/cat/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
-		<a href='<c:url value="/board/write/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
-		<a href='<c:url value="/board/reply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
-		<a href='<c:url value="/board/update/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
-		<a href='<c:url value="/board/delete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
+		<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+		<a href='<c:url value="/boardReply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
+		<a href='<c:url value="/boardUpdate/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
+		<a href='<c:url value="/boardDelete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
 		</td>
 	</tr>
 	<tr>
@@ -58,9 +58,9 @@
 	<tr>
 		<td><fmt:message key="FILE"/></td>
 		<td>
-		<%--c:if test="${!empty sessionScope.userid}"--%>
+		<%--c:if test="${!empty sessionScope.user_id}"--%>
 		<c:set var="len" value="${fn:length(board.file_name)}"/>
-		<c:set var="filetype" value="${fn:toUpperCase(fn:substring(board.file_name, len-4, len))}"/>
+		<c:set var="file_type" value="${fn:toUpperCase(fn:substring(board.file_name, len-4, len))}"/>
 		<c:if test="${(filetype eq '.JPG') or (filetype eq 'JPEG') or (filetype eq '.PNG') or (filetype eq '.GIF')}"><img src='<c:url value="/file/${board.file_id}"/>' class="img-thumbnail"><br></c:if>
 		<%--/c:if--%>
 		<a href='<c:url value="/file/${board.file_id}"/>'>${board.file_name} (<fmt:formatNumber>${board.file_size}</fmt:formatNumber>byte)</a>
@@ -70,15 +70,23 @@
 	<tr>
 		<td colspan=2 align="right">
 			<a href='<c:url value="/boardList/cat/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
-			<a href='<c:url value="/board/write/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
-			<a href='<c:url value="/board/reply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
-			<a href='<c:url value="/board/update/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
-			<a href='<c:url value="/board/delete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
+			<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+			<a href='<c:url value="/boardReply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
+			<a href='<c:url value="/boardUpdate/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
+			<a href='<c:url value="/boardDelete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
 		</td>
 	</tr>
+
 	</table>
 </div>
 </div>
+			<span>boardid:${board.board_id}</span><br>
+			<span>category_id:${board.category_id}</span><br>
+			<span>master_id:${board.master_id}</span><br>
+			<span>reply_number:${board.reply_number}</span><br>
+			<span>reply_step:${board.reply_step}</span><br>
+			<span>reply_parents_number:${board.reply_parents_number}</span><br>
+		
 <jsp:include page="/WEB-INF/views/include/Footer.jsp"/>
 </body>
 </html>

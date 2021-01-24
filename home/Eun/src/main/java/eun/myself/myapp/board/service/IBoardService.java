@@ -25,7 +25,7 @@ public interface IBoardService {
 	void updateArticle(Board board, BoardUploadFile file);
 	
 	Board selectDeleteArticle(int board_id);
-	void deleteArticle(int board_id, int reply_Number);
+	void deleteArticle(int board_id,int master_id, int reply_Number);
 	
 	int selectTotalArticleCount();
 	int selectTotalArticleCountByCategoryId(int category_id);
