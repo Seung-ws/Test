@@ -1,5 +1,6 @@
 package eun.myself.myapp.board.controller;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,12 +8,17 @@ import javax.servlet.http.HttpSession;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -122,11 +128,11 @@ public class BoardController {
 		try{
 			syslog.getLog("title:"+board.getTitle());
 			board.setTitle(Jsoup.clean(board.getTitle(), Whitelist.basic()));
-			syslog.getLog("1");
+		
 			board.setContent(Jsoup.clean(board.getContent(), Whitelist.basic()));
-			syslog.getLog("2");
+	
 			MultipartFile mfile = board.getFile();
-			syslog.getLog("3");
+
 			if(mfile!=null && !mfile.isEmpty()) {
 				syslog.getLog("/boardWrite : " + mfile.getOriginalFilename());
 				BoardUploadFile file = new BoardUploadFile();
@@ -135,10 +141,10 @@ public class BoardController {
 				file.setFile_content_type(mfile.getContentType());
 				file.setFile_data(mfile.getBytes());
 				syslog.getLog("/boardWrite : " + file.toString());
-				syslog.getLog("4");
+	
 				boardService.insertArticle(board, file);
 			}else {
-				syslog.getLog("5");
+		
 				boardService.insertArticle(board);
 			}
 		}catch(Exception e){
@@ -285,5 +291,39 @@ public class BoardController {
 		}else {
 			return "redirect:/boardList/cat/"+board.getCategory_id(); 
 		}
+	}
+	@RequestMapping("/file/{file_id}")
+	public ResponseEntity<byte[]> getFile(@PathVariable int file_id) {
+		BoardUploadFile file = boardService.getFile(file_id);
+		//logger.info("getFile " + file.toString());
+		final HttpHeaders headers = new HttpHeaders();
+		
+		String[] mtypes = file.getFile_content_type().split("/");
+		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
+		headers.setContentLength(file.getFile_size());
+		headers.setContentDispositionFormData("attachment", file.getFile_name(), Charset.forName("UTF-8"));
+		return new ResponseEntity<byte[]>(file.getFile_data(), headers, HttpStatus.OK);
+	}
+	@RequestMapping("/boardSearch/{page}")
+	public String search(@RequestParam(required=false, defaultValue="") String keyword, @PathVariable int page, HttpSession session, Model model) {
+		try {
+			List<Board> boardList = boardService.searchListByContentKeyword(keyword, page);
+			model.addAttribute("boardList", boardList);
+	
+			// paging start
+			int bbsCount = boardService.selectTotalArticleCountByKeyword(keyword);
+			int totalPage = 0;
+			System.out.println(bbsCount);
+			if(bbsCount > 0) {
+				totalPage= (int)Math.ceil(bbsCount/10.0);
+			}
+			model.addAttribute("totalPageCount", totalPage);
+			model.addAttribute("page", page);
+			model.addAttribute("keyword", keyword);
+			//logger.info(totalPage + ":" + page + ":" + keyword);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "boardSearch/boardSearch";
 	}
 }

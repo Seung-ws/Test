@@ -56,10 +56,10 @@
 			REPLY_NUMBER				AS "reply_number", 
 			REPLY_STEP					AS "reply_step", 
 			REPLY_PARENTS_NUMBER		AS "reply_parents_number",
-			BOARD_UPLOAD_FILE.FILE_ID			AS "fileId", 
-			BOARD_UPLOAD_FILE.FILE_NAME			AS "fileName", 
-			BOARD_UPLOAD_FILE.FILE_SIZE			AS "fileSize",
-			BOARD_UPLOAD_FILE.FILE_CONTENT_TYPE	AS "fileContentType"
+			BOARD_UPLOAD_FILE.FILE_ID			AS "file_id", 
+			BOARD_UPLOAD_FILE.FILE_NAME			AS "file_name", 
+			BOARD_UPLOAD_FILE.FILE_SIZE			AS "file_size",
+			BOARD_UPLOAD_FILE.FILE_CONTENT_TYPE	AS "file_content_type"
 		FROM BOARD LEFT OUTER JOIN BOARD_UPLOAD_FILE 
 			ON BOARD.BOARD_ID=BOARD_UPLOAD_FILE.BOARD_ID 
 		WHERE BOARD.BOARD_ID=#{board_id}
@@ -112,7 +112,7 @@
 	<select id="selectMaxFileId" parameterType="int" resultType="int">
 	<![CDATA[
 		SELECT 
-			NVL(MAX(FILE_ID),0) AS "fileId"
+			NVL(MAX(FILE_ID),0) AS "file_id"
 		FROM BOARD_UPLOAD_FILE
 	]]>
 	</select>
@@ -258,9 +258,9 @@
 	 	UPDATE 
 	 		BOARD_UPLOAD_FILE 
 	 	SET 
-	 		FILE_NAME=#{fileName}, FILE_SIZE=#{fileSize}, FILE_CONTENT_TYPE=#{fileContentType}, FILE_DATA=#{fileData} 
+	 		FILE_NAME=#{file_name}, FILE_SIZE=#{file_size}, FILE_CONTENT_TYPE=#{file_content_type}, FILE_DATA=#{file_data} 
 	 	WHERE 
-	 		FILE_ID=#{fileId}
+	 		FILE_ID=#{file_id}
 	]]>
 	</update>
 	

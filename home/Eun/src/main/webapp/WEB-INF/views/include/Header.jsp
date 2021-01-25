@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pathURI" value="${requestScope['javax.servlet.forward.servlet_path']}" /> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -34,14 +35,14 @@
       
       
       <!-- 세션이 비활성화일 때 로그아웃 없앰 -->
-      <c:if test="${not empty sessionScope.userid }">
+      <c:if test="${not empty sessionScope.user_id }">
 	      <li class="nav-item">
 	      	<a class="nav-link" href="<c:url value='/memberLogout?refurl=${pathURI }'/>">logout</a>
 	      </li>
       </c:if>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0"action="<c:url value='/boardSearch/1'/>" method="post" role="form">
+      <input type="text" class="form-control" name="keyword" placeholder="키워드를 입력하세요.">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>

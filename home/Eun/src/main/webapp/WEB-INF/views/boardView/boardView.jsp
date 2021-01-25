@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8" trimDirectiveWhitespaces="true"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <!DOCTYPE html> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -61,7 +61,7 @@
 		<%--c:if test="${!empty sessionScope.user_id}"--%>
 		<c:set var="len" value="${fn:length(board.file_name)}"/>
 		<c:set var="file_type" value="${fn:toUpperCase(fn:substring(board.file_name, len-4, len))}"/>
-		<c:if test="${(filetype eq '.JPG') or (filetype eq 'JPEG') or (filetype eq '.PNG') or (filetype eq '.GIF')}"><img src='<c:url value="/file/${board.file_id}"/>' class="img-thumbnail"><br></c:if>
+		<c:if test="${(file_type eq '.JPG') or (file_type eq 'JPEG') or (file_type eq '.PNG') or (file_type eq '.GIF')}"><img src='<c:url value="/file/${board.file_id}"/>' class="img-thumbnail"><br></c:if>
 		<%--/c:if--%>
 		<a href='<c:url value="/file/${board.file_id}"/>'>${board.file_name} (<fmt:formatNumber>${board.file_size}</fmt:formatNumber>byte)</a>
 		</td>

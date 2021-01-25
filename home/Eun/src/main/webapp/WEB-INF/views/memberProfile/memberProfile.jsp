@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -39,12 +40,12 @@
     </style>
     <script type="text/javascript">
 	$(document).ready(function(){
-		 $("#update").click(function�()�{
+		 $("#update").click(function () {
 			 $("#memberProfilePanel").attr("action","/myapp/memberProfile");
 			 $("#memberProfilePanel").attr("method","post");  		 
 			 	
 		 });
-		 $("#delete").click(function�()�{
+		 $("#delete").click(function () {
 			 $("#memberProfilePanel").attr("action","/myapp/memberDelete");
 			 $("#memberProfilePanel").attr("method","post");  		 
 			 	
@@ -145,7 +146,7 @@
 		  </main>
 		
 		  <footer class="my-5 pt-5 text-muted text-center text-small">
-		    <p class="mb-1">&copy; 2017–2020 Company Name</p>
+		    <p class="mb-1">&copy; 2017â2020 Company Name</p>
 		    <ul class="list-inline">
 		      <li class="list-inline-item"><a href="#">Privacy</a></li>
 		      <li class="list-inline-item"><a href="#">Terms</a></li>
