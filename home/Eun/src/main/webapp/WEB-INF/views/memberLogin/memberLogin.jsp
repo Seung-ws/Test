@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <jsp:include page="/WEB-INF/views/include/staticFile.jsp"/>
 <link rel="stylesheet" href="./resources/memberLogin/css/memberLogin.css"/>
+
 </head>
 <body  class="text-center">
 <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
