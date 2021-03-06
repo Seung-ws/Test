@@ -1,0 +1,23 @@
+@charset "utf-8";
+    .home-image{
+        background-image : url("../images/home.jpg");
+        background-repeat: no-repeat;
+        background-postion: center;
+        background-size: cover;
+        height: 500px;
+        min-height: 300px;
+        border-top: 10px solid #ccc;
+        border-bottom:10px solid #ccc;
+        padding: 20px 0 0 20px;
+    }
+    .title{
+        color:#c80;
+        font-weight: bold;
+    }
+    .powered{
+        position: relative;
+        top: 77%;
+        color: #cc0;
+        font-style: italic;
+    }
+

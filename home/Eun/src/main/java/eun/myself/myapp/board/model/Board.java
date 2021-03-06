@@ -1,5 +1,7 @@
 package eun.myself.myapp.board.model;
 
+
+
 import java.sql.Timestamp;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +17,7 @@ public class Board {
 	private String board_password;
 	private String title;
 	private String content;
-	private Timestamp write_date;
+	private String write_date;
 	//게시물 레벨 리플 정보
 	private int master_id;
 	private int reply_parents_number;
@@ -76,10 +78,10 @@ public class Board {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Timestamp getWriteDate() {
+	public String getWriteDate() {
 		return write_date;
 	}
-	public void setWriteDate(Timestamp write_date) {
+	public void setWriteDate(String write_date) {
 		this.write_date = write_date;
 	}
 	public int getMaster_id() {
@@ -155,10 +157,10 @@ public class Board {
 		this.file_content_type = file_content_type;
 	}
 	
-	public Timestamp getWrite_date() {
+	public String getWrite_date() {
 		return write_date;
 	}
-	public void setWrite_date(Timestamp write_date) {
+	public void setWrite_date(String write_date) {
 		this.write_date = write_date;
 	}
 	public int getReply_parents_number() {

@@ -1,0 +1,1 @@
+insert into memberInfo values('0',null,'admin@admin.com','admin','admin');
