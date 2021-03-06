@@ -30,14 +30,14 @@
 	    		REPLY_NUMBER, 
 	    		REPLY_STEP, 
 	    		READ_COUNT, 
-	    		ROWNUM AS RNUM
+	    		rowid AS RNUM
 	    	FROM (
 	    		SELECT * FROM BOARD
 	    		WHERE CATEGORY_ID=#{category_id}
 	    		ORDER BY MASTER_ID DESC, REPLY_NUMBER, REPLY_STEP
 	    	)
 	    )
-	    WHERE RNUM BETWEEN #{start} AND #{end}
+	    limit #{end} offset #{start}
 	]]>
 	</select>
 	
@@ -79,7 +79,7 @@
 	<select id="selectMaxArticleNo" resultType="int">
 	<![CDATA[
 		SELECT 
-			NVL(MAX(BOARD_ID),0) AS "articleNo"
+			IFNULL(MAX(BOARD_ID),0) AS "articleNo"
 		FROM BOARD
 	]]>
 	</select>
@@ -87,7 +87,7 @@
 	<select id="selectMaxReplyNo" parameterType="int" resultType="int">
 	<![CDATA[
 		SELECT 
-			NVL(MAX(reply_number),0) AS "replyNo"
+			IFNULL(MAX(reply_number),0) AS "replyNo"
 		FROM BOARD where master_id=#{master_id}
 	]]>
 	</select>
@@ -142,7 +142,7 @@
 			 #{board_password}, 
 			 #{title}, 
 			 #{content}, 
-			 SYSDATE, 
+			 datetime('now','localtime'), 
 			 #{board_id}, 
 			 0, 
 			 0,
@@ -224,7 +224,7 @@
 			 #{board_password}, 
 			 #{title}, 
 			 #{content}, 
-			 SYSDATE, 
+			 datetime('now','localtime'), 
 			 #{master_id}, 
 			 #{reply_number}, 
 			 #{reply_step},
@@ -247,7 +247,7 @@
 			BOARD 
 		SET 
 			CATEGORY_ID=#{category_id}, WRITER=#{writer}, writer_id=#{writer_id}, TITLE=#{title}, 
-			CONTENT=#{content}, WRITE_DATE=SYSDATE 
+			CONTENT=#{content}, WRITE_DATE=datetime('now','localtime') 
 		WHERE 
 			BOARD_ID=#{board_id}
 	]]>
@@ -357,7 +357,7 @@
 	    		REPLY_NUMBER, 
 	    		REPLY_STEP, 
 	    		READ_COUNT, 
-	    		ROWNUM AS RNUM
+	    		rowid AS RNUM
 	    	FROM (
 	    		SELECT * FROM BOARD
 	    		WHERE
@@ -367,7 +367,7 @@
 	    		ORDER BY MASTER_ID DESC, REPLY_NUMBER, REPLY_STEP
 	    	)
 	    )
-	    WHERE RNUM BETWEEN #{start} AND #{end}
+	    WHERE LIMIT #{end} AND #{start}
 	]]>
 	</select>
 
