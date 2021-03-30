@@ -22,17 +22,16 @@ public class BoardCategoryService implements IBoardCategoryService{
 	}
 
 	@Override
-	public List<BoardCategory> selectAllCategoryByClass1(int class1) {
+	public List<BoardCategory> selectAllCategoryByClass1(int category_Class1) {
 		// 전체 카테고리리스트의 ???
-		return boardCategoryRepository.selectAllCategoryByClass1(class1);
+		return boardCategoryRepository.selectAllCategoryByClass1(category_Class1);
 	}
 
 	@Override
 	public void insertNewCategory(BoardCategory boardCategory) {
 		// 새로운 카테고리를 삽입한다.
-		boardCategory.setCategory_id(boardCategoryRepository.selectMaxCategoryId());
+		boardCategory.setCategory_Id(boardCategoryRepository.selectMaxCategoryId());
 		boardCategoryRepository.insertNewCategory(boardCategory);
-		
 	}
 
 	@Override
@@ -42,9 +41,9 @@ public class BoardCategoryService implements IBoardCategoryService{
 	}
 
 	@Override
-	public void deleteCategory(int category_id) {
+	public void deleteCategory(int category_Id) {
 		// 카테고리를 삭제한다.
-		boardCategoryRepository.deleteCategory(category_id);
+		boardCategoryRepository.deleteCategory(category_Id);
 	}
 	
 

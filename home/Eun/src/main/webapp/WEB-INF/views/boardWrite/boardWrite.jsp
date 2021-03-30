@@ -27,9 +27,9 @@
 	<div class="form-group">
       <label class="control-label col-sm-2" for="name"><fmt:message key="CATEGORY"/></label>
       <div class="col-sm-4">
-        <select name="category_id" id="category_id" class="form-control" required>
+        <select name="category_Id" id="category_id" class="form-control" required>
         	<c:forEach var="category" items="${categoryList}">
-        	<option value="${category.category_id}"  ${category.category_id eq requestScope.categoryId ? "selected" : ""}>${category.category_name}</option>
+        	<option value="${category.category_Id}"  ${category.category_Id eq requestScope.category_Id ? "selected" : ""}>${category.category_Name}</option>
         	</c:forEach>
         </select>
       </div>
@@ -38,31 +38,31 @@
 	<div class="form-group">
       <label class="control-label col-sm-2" for="name"><fmt:message key="WRITER"/></label>
       <div class="col-sm-2">
-        <input type="text" name="writer" id="name" value="${sessionScope.user_name}" ${!empty sessionScope.user_name ? "readonly" : "" } class="form-control">
+        <input type="text" name="board_Writer" id="name" value="${sessionScope.member_Username}" ${!empty sessionScope.member_Username ? "readonly" : "" } class="form-control">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="email"><fmt:message key="EMAIL"/></label>
       <div class="col-sm-4">
-        <input type="text" name="writer_id" id="email" value="${sessionScope.user_id}" ${!empty sessionScope.user_id ? "readonly" : "" } class="form-control" required>
+        <input type="text" name="board_Writer_Id" id="email" value="${sessionScope.member_Id}" ${!empty sessionScope.member_Id ? "readonly" : "" } class="form-control" required>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="password"><fmt:message key="PASSWORD"/></label>
       <div class="col-sm-2">
-        <input type="password" name="board_password" id="password" class="form-control" required>
+        <input type="password" name="board_Password" id="password" class="form-control" required>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="title"><fmt:message key="SUBJECT"/></label>
       <div class="col-sm-8">
-        <input type="text" name="title" id="title" class="form-control" required>
+        <input type="text" name="board_Title" id="title" class="form-control" required>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="content"><fmt:message key="CONTENT"/></label>
       <div class="col-sm-8">
-        <textarea name="content" rows="10" cols="100" class="form-control"></textarea>
+        <textarea name="board_Content" rows="10" cols="100" class="form-control"></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -73,10 +73,10 @@
     </div>
     <div class="form-group">
     	<div class="col-sm-offset-2 col-sm-8">
-			<input type="hidden" name="board_id" value="${board.board_id}">
-			<input type="hidden" name="master_id" value="${board.master_id}">
-			<input type="hidden" name="reply_number" value="${board.reply_number}">
-			<input type="hidden" name="reply_step" value="${board.reply_step}">
+			<input type="hidden" name="board_id" value="${board.board_Id}">
+			<input type="hidden" name="master_id" value="${board.board_Master_Id}">
+			<input type="hidden" name="reply_number" value="${board.reply_Board_Number}">
+			<input type="hidden" name="reply_step" value="${board.reply_Board_Step}">
 			<input type="submit" id="i_submit" class="btn btn-info" value="<fmt:message key="SAVE"/>"> <input type="reset" class="btn btn-info" value="<fmt:message key="CANCEL"/>">
 		</div>
 	</div>

@@ -17,28 +17,24 @@ public class MemberService implements IMemberService{
 	
 
 	@Override
-	public void memberSignOut() {
+	public void logoutMember() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void memberSignIn(Member member) {
+	public void insertMember(Member member) {
 		// TODO Auto-generated method stub
-		memberRepository.memberSignIn(member);
+		memberRepository.insertMember(member);
 	}
 
-	@Override
-	public void signUpMember(Member member) {
-		// TODO Auto-generated method stub
-		memberRepository.signUpMember(member);
-	}
+
 
 	@Override
-	public boolean memberUpdate(Member member) {
+	public boolean updateMember(Member member) {
 		// TODO Auto-generated method stub
 		try {
-			memberRepository.memberUpdate(member);
+			memberRepository.updateMember(member);
 		}catch(Exception e)
 		{
 			return false;	
@@ -48,16 +44,16 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public Member selectMember(String user_id) {
+	public Member selectMember(String member_Id) {
 		// TODO Auto-generated method stub		
-		return memberRepository.selectMember(user_id);
+		return memberRepository.selectMember(member_Id);
 	}
 
 	@Override
-	public boolean memberDelete(String user_id) {
+	public boolean deleteMember(String member_Id) {
 		// TODO Auto-generated method stub
 		try {
-			memberRepository.memberDelete(user_id);
+			memberRepository.deleteMember(member_Id);
 			
 		}catch(Exception e)
 		{

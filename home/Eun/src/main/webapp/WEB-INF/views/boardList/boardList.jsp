@@ -58,15 +58,15 @@
 			<tr>
 				<c:set var="seq" value="${seq + 1}" scope="page"/>
 				<!-- td class="pc">${seq}</td-->
-				<td>${board.board_id}<!-- (${board.category_id})--></td>
-				<td class="pc">${board.writer}</td>
+				<td>${board.board_Id}<!-- (${board.category_Id})--></td>
+				<td class="pc">${board.board_Writer}</td>
 				<td>
-				<jk:reply reply_num="${board.reply_number}" reply_step="${board.reply_step}"/>
-				<a href='<c:url value="/board/${board.board_id}"/>'>${board.title}</a>
+				<jk:reply reply_num="${board.reply_Board_Number}" reply_step="${board.reply_Board_Step}"/>
+				<a href='<c:url value="/board/${board.board_Id}"/>'>${board.board_Title}</a>
 				</td>
-				<td class="pc">${board.write_date }</td>
+				<td class="pc">${board.board_WriteDate }</td>
 			
-				<td class="pc">${board.read_count}</td>
+				<td class="pc">${board.read_Count}</td>
 				<!-- td class="pc"><span class="glyphicon glyphicon-file"></span-->
 				
 			</tr>
@@ -76,10 +76,10 @@
 			<table class="table">
 			<tr>
 				<td align="left">
-					<jk:paging category_id="${category_id}" totalPageCount="${totalPageCount}" nowPage="${page}"/>
+					<jk:paging category_id="${category_Id}" totalPageCount="${totalPageCount}" nowPage="${page}"/>
 				</td>
 				<td align="right">
-					<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+					<a href='<c:url value="/boardWrite/${category_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
 				</td>
 			</tr>
 			</table>

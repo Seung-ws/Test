@@ -7,36 +7,36 @@
 	<select id="selectArticleListByCategory" parameterType="map" resultType="eun.myself.myapp.board.model.Board">
 	<![CDATA[
 		SELECT 
-			BOARD_ID 				AS "board_id", 
-			CATEGORY_ID 			AS "category_id", 
-			WRITER					AS "writer", 
-			WRITER_ID					AS "WRITER_ID", 
-			TITLE					AS "title", 
-			WRITE_DATE				AS "write_Date", 
-			MASTER_ID 				AS "master_id", 
-			REPLY_NUMBER 			AS "reply_number", 
-			REPLY_STEP				AS "reply_Step", 
+			BOARD_ID 				AS "board_Id", 
+			CATEGORY_ID 			AS "category_Id", 
+			BOARD_WRITER					AS "board_Writer", 
+			BOARD_WRITER_ID				AS "board_Writer_Id", 
+			BOARD_TITLE					AS "board_Title", 
+			BOARD_WRITEDATE				AS "board_WriteDate", 
+			BOARD_MASTER_ID 				AS "board_Master_Id", 
+			REPLY_BOARD_NUMBER 			AS "reply_Board_Number", 
+			REPLY_BOARD_STEP				AS "reply_Board_Step", 
 			READ_COUNT				AS "read_Count", 
 			RNUM+1 					AS "seq"
 	    FROM (
-	    	SELECT 
-	    		BOARD_ID, 
-	    		CATEGORY_ID, 
-	    		WRITER, 
-	    		WRITER_ID, 
-	    		TITLE, 
-	    		WRITE_DATE, 
-	    		MASTER_ID, 
-	    		REPLY_NUMBER, 
-	    		REPLY_STEP, 
-	    		READ_COUNT, 
-	    		rowid AS RNUM
+            SELECT 
+	    		A.BOARD_ID AS BOARD_ID, 
+	    		A.CATEGORY_ID AS CATEGORY_ID, 
+	    		A.BOARD_WRITER AS BOARD_WRITER, 
+	    		A.BOARD_WRITER_ID AS BOARD_WRITER_ID, 
+	    		A.BOARD_TITLE AS BOARD_TITLE, 
+	    		A.BOARD_WRITEDATE AS BOARD_WRITEDATE, 
+	    		A.BOARD_MASTER_ID AS BOARD_MASTER_ID, 
+	    		A.REPLY_BOARD_NUMBER AS REPLY_BOARD_NUMBER, 
+	    		A.REPLY_BOARD_STEP AS REPLY_BOARD_STEP, 
+	    		A.READ_COUNT AS READ_COUNT,
+				@rownum:=@rownum+1 AS RNUM
 	    	FROM (
 	    		SELECT * FROM BOARD
-	    		WHERE CATEGORY_ID=#{category_id}
-	    		ORDER BY MASTER_ID DESC, REPLY_NUMBER, REPLY_STEP
-	    	)
-	    )
+	    		WHERE CATEGORY_ID=#{category_Id}
+	    		ORDER BY BOARD_MASTER_ID DESC, REPLY_BOARD_NUMBER, REPLY_BOARD_STEP
+	    	) A,(SELECT @rownum:=0) TEMP
+		) B
 	    limit #{end} offset #{start}
 	]]>
 	</select>
@@ -94,7 +94,7 @@
 	<select id="selectCustomMaxReplyNo" parameterType="map" resultType="int">
 	<![CDATA[
 		SELECT 
-		NVL(MAX(reply_number),0) AS "replyNo"
+		IFNULL(MAX(reply_number),0) AS "replyNo"
 		FROM BOARD 
 		where master_id=#{master_id} and reply_step=#{reply_step} and reply_parents_number=#{reply_parents_number}
 	]]>
@@ -112,7 +112,7 @@
 	<select id="selectMaxFileId" parameterType="int" resultType="int">
 	<![CDATA[
 		SELECT 
-			NVL(MAX(FILE_ID),0) AS "file_id"
+			IFNULL(MAX(FILE_ID),0) AS "file_id"
 		FROM BOARD_UPLOAD_FILE
 	]]>
 	</select>
@@ -123,27 +123,27 @@
 		BOARD 
 			(BOARD_ID,
 			 CATEGORY_ID, 
-			 WRITER, 
-			 writer_id, 
-			 board_password, 
-			 TITLE, 
-			 CONTENT, 
-			 WRITE_DATE, 
-			 MASTER_ID, 
-			 REPLY_NUMBER, 			 
-			 REPLY_STEP,
-			 reply_parents_number
+			 BOARD_WRITER, 
+			 BOARD_WRITER_ID, 
+			 BOARD_PASSWORD, 
+			 BOARD_TITLE, 
+			 BOARD_CONTENT, 
+			 BOARD_WRITEDATE, 
+			 BOARD_MASTER_ID, 
+			 REPLY_BOARD_NUMBER, 			 
+			 REPLY_BOARD_STEP,
+			 REPLY_BOARD_STARTBOARD
 			 )  
 		VALUES 
-			(#{board_id},
-			 #{category_id}, 
-			 #{writer}, 
-			 #{writer_id}, 
-			 #{board_password}, 
-			 #{title}, 
-			 #{content}, 
-			 datetime('now','localtime'), 
-			 #{board_id}, 
+			(#{board_Id},
+			 #{category_Id}, 
+			 #{board_Writer}, 
+			 #{board_Writer_Id}, 
+			 #{board_Password}, 
+			 #{board_Title}, 
+			 #{board_Content}, 
+			 DEFAULT, 
+			 #{board_Id}, 
 			 0, 
 			 0,
 			 -1
@@ -318,7 +318,7 @@
 	<![CDATA[
 		SELECT COUNT(BOARD_ID) AS "count"
 		FROM BOARD 
-		WHERE CATEGORY_ID=#{category_id}	
+		WHERE CATEGORY_ID=#{category_Id}	
 	]]>
 	</select>
 	

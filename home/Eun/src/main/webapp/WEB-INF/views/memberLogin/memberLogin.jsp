@@ -20,7 +20,7 @@
 
 
 <!-- session valid -->
-<c:if test="${empty sessionScope.user_id }">
+<c:if test="${empty sessionScope.member_Id }">
 	<div class="loginpanel ">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signin" method="post" action="<c:url value='/memberLogin'/>" >	
@@ -30,12 +30,12 @@
             <h2 class="h5 mb-1 font-weight-normal"><fmt:message key="${not empty message ? message : 'BLANK'}"/></h2>
 	  		<!-- 로그인정보 -->	
 	  		<label for="inputEmail" class="sr-only">Email address</label>
-	  		<input type="text" id="inputEmail" name="user_id" class="form-control" placeholder="userid" required autofocus>
+	  		<input type="text" id="inputEmail" name="member_Id" class="form-control" placeholder="userid" required autofocus>
 	  		
 	  		<!-- 로그인정보2 -->
 	  		<label for="inputPassword" class="sr-only">Password</label>
 	  	
-	  		<input type="password" name="user_password"  id="inputPassword" class="form-control" placeholder="Password" required>
+	  		<input type="password" name="member_Password"  id="inputPassword" class="form-control" placeholder="Password" required>
 	  		<div class="checkbox mb-3">
     			<label>
 	      			<input type="checkbox" name="remember" value="remember-me"> Remember me

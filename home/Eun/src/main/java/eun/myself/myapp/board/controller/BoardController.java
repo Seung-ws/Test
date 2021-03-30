@@ -42,8 +42,9 @@ public class BoardController {
 	SysLog syslog;
 
 	
-	@RequestMapping("/boardList/cat/{category_id}/{page}")
-	public String getListByCategory(@PathVariable int category_id, @PathVariable int page, HttpSession session, Model model)
+	@RequestMapping("/boardList/cat/{category_Id}/{page}")
+	public String getListByCategory(@PathVariable int category_Id, @PathVariable int page,
+			HttpSession session, Model model)
 	{
 		/*
 		 * 게시물의 카테고리id값을 기반으로  게시물을 불러오는 페이지값으로 게시물을 나눠서 보여준다.
@@ -54,17 +55,19 @@ public class BoardController {
 		//카테고리 아이디 값과 페이지를 변수로 받는다.
 		//세션에 페이지를 모델Requst에 카테고리 아이디를 넣는다.
 		session.setAttribute("page", page);
-		model.addAttribute("category_id", category_id);
+		model.addAttribute("category_Id", category_Id);
 	
-		List<Board> boardList = boardService.selectArticleListByCategory(category_id, page);
+		List<Board> boardList = boardService.selectArticleListByCategory(category_Id, page);
+		//게시물 리스트를 카테고리 기준 가져온다
 		model.addAttribute("boardList", boardList);
 
 		// paging start
-		int bbsCount = boardService.selectTotalArticleCountByCategoryId(category_id);
+		int bbsCount = boardService.selectTotalArticleCountByCategoryId(category_Id);
+		//총 게시물의 수를 조회한다
 		int totalPage = 0;
 
 		if(bbsCount > 0) {
-			totalPage= (int)Math.ceil(bbsCount/10.0);
+			totalPage= (int)Math.ceil(bbsCount/10.0);//같거나 최소 정수로 반환한다.
 		}
 	
 		model.addAttribute("totalPageCount", totalPage);
@@ -73,44 +76,44 @@ public class BoardController {
 		return "boardList/boardList";
 	}
 	
-	@RequestMapping(value = "/boardList/cat/{category_id}")
-	public String getListByCategory(@PathVariable int category_id,HttpSession session, Model model) {
+	@RequestMapping(value = "/boardList/cat/{category_Id}")
+	public String getListByCategory(@PathVariable int category_Id,HttpSession session, Model model) {
 		/*
 		 * 카테고리와 관련된 게시물을 보여주는데 페이지가 정해지지않아 첫페이지를 호출해 보여준다.
 		 */
-		syslog.getLog("->boardList/cat/"+category_id);
-		return getListByCategory(category_id, 1, session, model);
+		syslog.getLog("->boardList/cat/"+category_Id);
+		return getListByCategory(category_Id, 1, session, model);
 	}
 	
-	@RequestMapping("/board/{board_id}/{page}")	
-	public String getBoardDetails(@PathVariable int board_id, @PathVariable int page, Model model) {
+	@RequestMapping("/board/{board_Id}/{page}")	
+	public String getBoardDetails(@PathVariable int board_Id, @PathVariable int page, Model model) {
 		syslog.getLog("1");
 		//게시물의 정보를 가져오며 뷰어에서 출력할 수 있도록 request정보 입력
-		Board board = boardService.selectArticle(board_id);
+		Board board = boardService.selectArticle(board_Id);
 		model.addAttribute("board", board);
 		model.addAttribute("page", page);
-		model.addAttribute("category_id", board.getCategory_id());
-		syslog.getLog("와 아빠다"+board.getReply_parents_number());
+		model.addAttribute("category_Id", board.getCategory_Id());
+		syslog.getLog("근본 게시물 id : "+board.getReply_Board_StartBoard());
 		//logger.info("getBoardDetails " + board.toString());
 		return "boardView/boardView";
 	}
 
-	@RequestMapping("/board/{board_id}")
-	public String getBoardDetails(@PathVariable int board_id, Model model) {
+	@RequestMapping("/board/{board_Id}")
+	public String getBoardDetails(@PathVariable int board_Id, Model model) {
 		//게시물 정보를 불러오며 디폴트 페이지 1값 입력
-		syslog.getLog("1");
-		return getBoardDetails(board_id, 1, model);
+		syslog.getLog(">게시물 디테일 정보");
+		return getBoardDetails(board_Id, 1, model);
 	}
 	
-	@RequestMapping(value="/boardWrite/{category_id}", method=RequestMethod.GET)
-	public String writeArticle(@PathVariable int category_id, Model model) {
+	@RequestMapping(value="/boardWrite/{category_Id}", method=RequestMethod.GET)
+	public String writeArticle(@PathVariable int category_Id, Model model) {
 		/*카테고리들을 불러온다음에 게시물 쓰기의 선택사항 리스트로 집어 넣는다 게시물 쓰기 페이지 호출
 		 * 카테고리 아이디는 초기 선택 아이템을 유도하기 위함 이고 게시물 쓰기 페이지 호출
 		 */
 		
 		List<BoardCategory> categoryList = categoryService.selectAllCategory();
 		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("category_id", category_id);
+		model.addAttribute("category_Id", category_Id);
 		return "boardWrite/boardWrite";
 	}
 	
@@ -122,24 +125,24 @@ public class BoardController {
 		 * 작성한 뒤에는 게시물 목록으로 돌아온다.
 		 */
 		syslog.getLog("/boardWrite : " + board.toString());
-		syslog.getLog("board_id : "+board.getBoard_id());
-		syslog.getLog("writer_id : "+board.getWriter_id());
-		syslog.getLog("board_passwd : "+board.getBoard_password());
+		syslog.getLog("board_Id : "+board.getBoard_Id());
+		syslog.getLog("board_Writer_Id : "+board.getBoard_Writer_Id());
+		syslog.getLog("board_Password : "+board.getBoard_Password());
 		try{
-			syslog.getLog("title:"+board.getTitle());
-			board.setTitle(Jsoup.clean(board.getTitle(), Whitelist.basic()));
+			syslog.getLog("title:"+board.getBoard_Title());
+			board.setBoard_Title(Jsoup.clean(board.getBoard_Title(), Whitelist.basic()));
 		
-			board.setContent(Jsoup.clean(board.getContent(), Whitelist.basic()));
+			board.setBoard_Content(Jsoup.clean(board.getBoard_Content(), Whitelist.basic()));
 	
 			MultipartFile mfile = board.getFile();
-
+			syslog.getLog("30%");
 			if(mfile!=null && !mfile.isEmpty()) {
 				syslog.getLog("/boardWrite : " + mfile.getOriginalFilename());
 				BoardUploadFile file = new BoardUploadFile();
-				file.setFile_name(mfile.getOriginalFilename());
-				file.setFile_size(mfile.getSize());
-				file.setFile_content_type(mfile.getContentType());
-				file.setFile_data(mfile.getBytes());
+				file.setFile_Name(mfile.getOriginalFilename());
+				file.setFile_Size(mfile.getSize());
+				file.setFile_Content_Type(mfile.getContentType());
+				file.setFile_Data(mfile.getBytes());
 				syslog.getLog("/boardWrite : " + file.toString());
 	
 				boardService.insertArticle(board, file);
@@ -151,19 +154,19 @@ public class BoardController {
 			e.printStackTrace();
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 		}
-		return "redirect:/boardList/cat/"+board.getCategory_id();
+		return "redirect:/boardList/cat/"+board.getCategory_Id();
 	}
 	
-	@RequestMapping(value="/boardDelete/{board_id}", method=RequestMethod.GET)
-	public String deleteArticle(@PathVariable int board_id, Model model) {
+	@RequestMapping(value="/boardDelete/{board_Id}", method=RequestMethod.GET)
+	public String deleteArticle(@PathVariable int board_Id, Model model) {
 		/*
 		 * 게시물 아이디 값을 기준으로 삭제 게시물의 정보를 가져오고 삭제선택 페이지를 호출 
 		 */
-		Board board = boardService.selectDeleteArticle(board_id);
-		model.addAttribute("category_id", board.getCategory_id());
-		model.addAttribute("board_id", board_id);
-		model.addAttribute("reply_number", board.getReply_number());
-		model.addAttribute("master_id",board.getMaster_id());
+		Board board = boardService.selectDeleteArticle(board_Id);
+		model.addAttribute("category_Id", board.getCategory_Id());
+		model.addAttribute("board_Id", board_Id);
+		model.addAttribute("reply_Board_Number", board.getReply_Board_Number());
+		model.addAttribute("master_Id",board.getBoard_Master_Id());
 		return "boardDelete/boardDelete";
 	}
 	
@@ -173,14 +176,14 @@ public class BoardController {
 		 * 삭제페이지에서는 db에 게시물 아이디를 기반해 비밀번호를 대조 후 
 		 * 게시물 아이디 값을 기준으로 삭제를 실행한다. 답글에 대해서는 추가적으로 입력받아 같이 삭제한다.
 		 */
-		syslog.getLog("마스터삭제:"+board.getMaster_id());
+		syslog.getLog("마스터삭제:"+board.getBoard_Master_Id());
 		try {
 			
-			String dbpw = boardService.getPassword(board.getBoard_id());
+			String dbpw = boardService.getPassword(board.getBoard_Id());
 
-			if(dbpw.equals(board.getBoard_password())) {
-				boardService.deleteArticle(board.getBoard_id(),board.getMaster_id(), board.getReply_number());
-				return "redirect:/boardList/cat/"+board.getCategory_id()+"/"+(Integer)session.getAttribute("page");
+			if(dbpw.equals(board.getBoard_Password())) {
+				boardService.deleteArticle(board.getBoard_Id(),board.getBoard_Master_Id(), board.getReply_Board_Number());
+				return "redirect:/boardList/cat/"+board.getCategory_Id()+"/"+(Integer)session.getAttribute("page");
 			}else {
 				model.addAttribute("message", "WRONG_PASSWORD_NOT_DELETED");
 				return "error/runtime";
@@ -194,16 +197,16 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value="/boardUpdate/{board_id}", method=RequestMethod.GET)
-	public String updateArticle(@PathVariable int board_id, Model model) {
+	@RequestMapping(value="/boardUpdate/{board_Id}", method=RequestMethod.GET)
+	public String updateArticle(@PathVariable int board_Id, Model model) {
 		/*
 		 * 게시물 수정 게시물아이디 기반 수정 페이지 호출 한다 카테고리 종류를 먼저 불러온 후 선택되어있는 카테고리와 
 		 * 게시물 정보를 넘긴다.
 		 */
 		List<BoardCategory> categoryList = categoryService.selectAllCategory();
 		model.addAttribute("categoryList", categoryList);
-		Board board = boardService.selectArticle(board_id);
-		model.addAttribute("category_id", board.getCategory_id());
+		Board board = boardService.selectArticle(board_Id);
+		model.addAttribute("category_Id", board.getCategory_Id());
 		model.addAttribute("board", board);
 		return "boardUpdate/boardUpdate";
 	}
@@ -212,17 +215,17 @@ public class BoardController {
 	public String updateArticle(Board board, BindingResult result, HttpSession session, RedirectAttributes redirectAttrs) {
 		//logger.info("/boardUpdate " + board.toString());
 		try{
-			board.setTitle(Jsoup.clean(board.getTitle(), Whitelist.basic()));
-			board.setContent(Jsoup.clean(board.getContent(), Whitelist.basic()));
+			board.setBoard_Title(Jsoup.clean(board.getBoard_Title(), Whitelist.basic()));
+			board.setBoard_Content(Jsoup.clean(board.getBoard_Content(), Whitelist.basic()));
 			MultipartFile mfile = board.getFile();
 			if(mfile!=null && !mfile.isEmpty()) {
 				//logger.info("/board/update : " + mfile.getOriginalFilename());
 				BoardUploadFile file = new BoardUploadFile();
-				file.setFile_id(board.getFile_id());
-				file.setFile_name(mfile.getOriginalFilename());
-				file.setFile_size(mfile.getSize());
-				file.setFile_content_type(mfile.getContentType());
-				file.setFile_data(mfile.getBytes());
+				file.setFile_Id(board.getFile_Id());
+				file.setFile_Name(mfile.getOriginalFilename());
+				file.setFile_Size(mfile.getSize());
+				file.setFile_Content_Type(mfile.getContentType());
+				file.setFile_Data(mfile.getBytes());
 				//logger.info("/board/update : " + file.toString());
 				boardService.updateArticle(board, file);
 			}else {
@@ -233,19 +236,19 @@ public class BoardController {
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 		}
 
-		return "redirect:/board/"+board.getBoard_id();
+		return "redirect:/board/"+board.getBoard_Id();
 	}
-	@RequestMapping(value="/boardReply/{board_id}",method=RequestMethod.GET)
-	public String replyArticle(@PathVariable int board_id, Model model) {
+	@RequestMapping(value="/boardReply/{board_Id}",method=RequestMethod.GET)
+	public String replyArticle(@PathVariable int board_Id, Model model) {
 		/*
 		 * 게시물 id 값을 기준으로 답글을 작성한다.
 		 * 
 		 */
-		Board board = boardService.selectArticle(board_id);
-		board.setWriter("");
-		board.setWriter_id("");
-		board.setTitle("[Re]"+board.getTitle());
-		board.setContent("\n\n\n----------\n" + board.getContent());
+		Board board = boardService.selectArticle(board_Id);
+		board.setBoard_Writer("");
+		board.setBoard_Writer_Id("");
+		board.setBoard_Title("[Re]"+board.getBoard_Title());
+		board.setBoard_Content("\n\n\n----------\n" + board.getBoard_Content());
 		model.addAttribute("board", board);
 		model.addAttribute("next", "reply");
 		return "boardReply/boardReply";
@@ -261,18 +264,18 @@ public class BoardController {
 
 		try{
 			syslog.getLog("-1");
-			board.setTitle(Jsoup.clean(board.getTitle(), Whitelist.basic()));
-			board.setContent(Jsoup.clean(board.getContent(), Whitelist.basic()));
+			board.setBoard_Title(Jsoup.clean(board.getBoard_Title(), Whitelist.basic()));
+			board.setBoard_Content(Jsoup.clean(board.getBoard_Content(), Whitelist.basic()));
 			syslog.getLog("-2");
-			syslog.getLog(""+board.getReply_number());
+			syslog.getLog(""+board.getReply_Board_Number());
 			MultipartFile mfile = board.getFile();
 			if(mfile!=null && !mfile.isEmpty()) {
 				//logger.info("/board/reply : " + mfile.getOriginalFilename());
 				BoardUploadFile file = new BoardUploadFile();
-				file.setFile_name(mfile.getOriginalFilename());
-				file.setFile_size(mfile.getSize());
-				file.setFile_content_type(mfile.getContentType());
-				file.setFile_data(mfile.getBytes());
+				file.setFile_Name(mfile.getOriginalFilename());
+				file.setFile_Size(mfile.getSize());
+				file.setFile_Content_Type(mfile.getContentType());
+				file.setFile_Data(mfile.getBytes());
 				//logger.info("/board/reply : " + file.toString());
 
 				boardService.replyArticle(board, file);
@@ -287,22 +290,22 @@ public class BoardController {
 		}
 		
 		if(session.getAttribute("page") != null) {
-			return "redirect:/boardList/cat/"+board.getCategory_id()+"/"+(Integer)session.getAttribute("page");
+			return "redirect:/boardList/cat/"+board.getCategory_Id()+"/"+(Integer)session.getAttribute("page");
 		}else {
-			return "redirect:/boardList/cat/"+board.getCategory_id(); 
+			return "redirect:/boardList/cat/"+board.getCategory_Id(); 
 		}
 	}
-	@RequestMapping("/file/{file_id}")
-	public ResponseEntity<byte[]> getFile(@PathVariable int file_id) {
-		BoardUploadFile file = boardService.getFile(file_id);
+	@RequestMapping("/file/{file_Id}")
+	public ResponseEntity<byte[]> getFile(@PathVariable int file_Id) {
+		BoardUploadFile file = boardService.getFile(file_Id);
 		//logger.info("getFile " + file.toString());
 		final HttpHeaders headers = new HttpHeaders();
 		
-		String[] mtypes = file.getFile_content_type().split("/");
+		String[] mtypes = file.getFile_Content_Type().split("/");
 		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
-		headers.setContentLength(file.getFile_size());
-		headers.setContentDispositionFormData("attachment", file.getFile_name(), Charset.forName("UTF-8"));
-		return new ResponseEntity<byte[]>(file.getFile_data(), headers, HttpStatus.OK);
+		headers.setContentLength(file.getFile_Size());
+		headers.setContentDispositionFormData("attachment", file.getFile_Name(), Charset.forName("UTF-8"));
+		return new ResponseEntity<byte[]>(file.getFile_Data(), headers, HttpStatus.OK);
 	}
 	@RequestMapping("/boardSearch/{page}")
 	public String search(@RequestParam(required=false, defaultValue="") String keyword, @PathVariable int page, HttpSession session, Model model) {

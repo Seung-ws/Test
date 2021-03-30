@@ -12,7 +12,8 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->	
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 빈 수동 등록 과정 -->	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />		
 		<property name="suffix" value=".jsp" />
@@ -32,6 +33,7 @@
 	<context:component-scan base-package="eun.myself.myapp.board.controller"/>
 	<context:component-scan base-package="eun.myself.myapp.webdl.controller"/>
 	<context:component-scan base-package="eun.myself.myapp.syslog"/>
+	<context:component-scan base-package="eun.myself.myapp.test.controller"/>
 	
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

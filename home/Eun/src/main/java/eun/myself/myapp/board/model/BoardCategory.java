@@ -1,50 +1,48 @@
 package eun.myself.myapp.board.model;
 
 public class BoardCategory {
-	private int category_id;
-	private int category_class1;
-	private int category_class2;
-	private String category_name;
-	private String category_description;
-	private int category_order;
-	
-	public int getCategory_id() {
-		return category_id;
+	private int category_Id;
+	private String category_Name;
+	private int category_Class1;
+	private int category_Class2;	
+	private String category_Description;
+	private int category_Order;
+	public int getCategory_Id() {
+		return category_Id;
 	}
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setCategory_Id(int category_Id) {
+		this.category_Id = category_Id;
 	}
-	public int getCategory_class1() {
-		return category_class1;
+	public String getCategory_Name() {
+		return category_Name;
 	}
-	public void setCategory_class1(int category_class1) {
-		this.category_class1 = category_class1;
+	public void setCategory_Name(String category_Name) {
+		this.category_Name = category_Name;
 	}
-	public int getCategory_class2() {
-		return category_class2;
+	public int getCategory_Class1() {
+		return category_Class1;
 	}
-	public void setCategory_class2(int category_class2) {
-		this.category_class2 = category_class2;
+	public void setCategory_Class1(int category_Class1) {
+		this.category_Class1 = category_Class1;
 	}
-	public String getCategory_name() {
-		return category_name;
+	public int getCategory_Class2() {
+		return category_Class2;
 	}
-	public void setCategory_name(String category_name) {
-		this.category_name = category_name;
+	public void setCategory_Class2(int category_Class2) {
+		this.category_Class2 = category_Class2;
 	}
-	public String getCategory_description() {
-		return category_description;
+	public String getCategory_Description() {
+		return category_Description;
 	}
-	public void setCategory_description(String category_description) {
-		this.category_description = category_description;
+	public void setCategory_Description(String category_Description) {
+		this.category_Description = category_Description;
 	}
-	public int getCategory_order() {
-		return category_order;
+	public int getCategory_Order() {
+		return category_Order;
 	}
-	public void setCategory_order(int category_order) {
-		this.category_order = category_order;
+	public void setCategory_Order(int category_Order) {
+		this.category_Order = category_Order;
 	}
-
 	
 	
 }

@@ -2,25 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eun.myself.myapp.member.dao.IMemberRepository">
-	<insert id="signUpMember" parameterType="eun.myself.myapp.member.model.Member">
+	<insert id="insertMember" parameterType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
-		insert into 
-			memberInfo 
+		INSERT INTO 
+		MEMBERS 
 			 (
-			 user_uid,
-			 user_id,
-			 user_name,
-			 user_password,
-			 user_email
+			 	MEMBER_UID,
+			 	MEMBER_ID,
+			 	MEMBER_USERNAME,
+			 	MEMBER_PASSWORD,
+			 	MEMBER_EMAIL
 			 ) 
-		values
+		VALUES
 			 (
-			#{user_uid},
-			#{user_id},
-			#{user_name},
-			#{user_password},
-			#{user_email}
-				
+				#{member_Uid},
+				#{member_Id},
+				#{member_Username},
+				#{member_Password},
+				#{member_Email}				
 			 )
 	]]>
 	</insert>
@@ -28,42 +27,42 @@
 	<select id="memberSignin" resultType="eun.myself.myapp.member.model.Member">
 		Select * from a
 	</select>
-	<update id="memberUpdate" parameterType="eun.myself.myapp.member.model.Member">
+	<update id="updateMember" parameterType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
-		update 
-		 memberInfo
-	    set  
-	    user_name=#{user_name}, 
-	    user_password=#{user_password}, 
-	    user_email=#{user_email} 
-	    where 
-	    user_id=#{user_id}
+		UPDATE
+			MEMBERS
+	    SET
+	    	MEMBER_USERNAME=#{member_Username}, 
+	    	MEMBER_PASSWORD=#{member_Password}, 
+	    	MEMBER_EMAIL=#{member_Email} 
+	    WHERE 
+	    	MEMBER_ID=#{member_Id}
 	]]>
 		
 	</update>
-	<delete id="memberDelete" parameterType="string">
+	<delete id="deleteMember" parameterType="string">
 	<![CDATA[
-		delete
-		 from
-		  memberInfo 
-	     where
-	      user_userid=#{user_userid}
+		DELETE
+		 FROM
+		  MEMBERS 
+	     WHERE
+	      MEMBER_ID=#{member_Id}
 	]]>
 		
 	</delete>
 	<select id="selectMember" parameterType="string" resultType="eun.myself.myapp.member.model.Member">
 	<![CDATA[
-		Select 
-			user_uid,
-			user_gid,
-			user_id,
-			user_name,
-			user_password,
-			user_email,
-			user_profileimage
-		 from
-		  memberInfo
-	     where user_id=#{user_id}
+		SELECT 
+			MEMBER_UID,
+			MEMBER_GID,
+			MEMBER_ID,
+			MEMBER_USERNAME,
+			MEMBER_PASSWORD,
+			MEMBER_EMAIL,
+			MEMBER_IMAGE
+		 FROM
+		  MEMBERS
+	     WHERE MEMBER_ID=#{member_Id}
    	]]>
 	</select>
 </mapper>

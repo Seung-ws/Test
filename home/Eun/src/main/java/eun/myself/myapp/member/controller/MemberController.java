@@ -32,9 +32,9 @@ public class MemberController {
 	
 	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
 	public String memberLogin(HttpSession session) {
-		String user_id=(String)session.getAttribute("user_id");
+		String member_Id=(String)session.getAttribute("member_Id");
 		syslog.getLog("GET-login 진입 & 세션 확인");
-		if(user_id!=null)
+		if(member_Id!=null)
 		{
 			syslog.getLog("GET-login -> /memberProfile");
 			return "redirect:/memberProfile";
@@ -47,22 +47,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberLogin",method=RequestMethod.POST)
-	public String memberLogin(String remember,String user_id,String user_password,HttpSession session,Model model)	
+	public String memberLogin(String remember,String member_Id,String member_Password,
+			HttpSession session,Model model)	
 	{		
 		syslog.getLog("GET->memberLogin 접속");
 		//계정정보 탐색
-		Member member=memberService.selectMember(user_id);
+		Member member=memberService.selectMember(member_Id);
 		if(member!=null)
 		{			
 			//DB상 password
-			String dbPassword=member.getUser_password();
+			String dbPassword=member.getMember_Password();
 			if(dbPassword!=null)
 			{
 				//로그인 성공
-				if(dbPassword.equals(getHash(user_password,"SHA256")))
+				if(dbPassword.equals(getHash(member_Password,"SHA256")))
 				{
-					session.setAttribute("user_id", member.getUser_id());
-					session.setAttribute("user_name",member.getUser_name());
+					session.setAttribute("member_Id", member.getMember_Id());
+					session.setAttribute("member_Username",member.getMember_Username());
 	
 					if(remember!=null)
 					{
@@ -85,6 +86,7 @@ public class MemberController {
 			model.addAttribute("message","USER_NOT_FOUND");
 		}
 		session.invalidate();	
+		
 		syslog.getLog("GET->memberLogin 으로 다시 리턴");
 		return "memberLogin/memberLogin";
 	}
@@ -112,26 +114,26 @@ public class MemberController {
 		return "memberInsert/memberInsert";
 	}
 	@RequestMapping(value="/memberInsert",method=RequestMethod.POST)
-	public String signUpMember(String user_id,String user_email,String user_password)
+	public String signUpMember(String member_Id,String member_Email,String member_Password)
 	{		
-		Member member=memberService.selectMember(user_id);
+		Member member=memberService.selectMember(member_Id);
 		if(member==null)
 		{
 			
-			Member newmember =new Member();
-			String user_uid=UUID.randomUUID().toString();
-			newmember.setUser_uid(user_uid);
-			newmember.setUser_gid(user_uid);
+			Member newMember =new Member();
+			String member_Uid=UUID.randomUUID().toString();
+			newMember.setMember_Uid(member_Uid);
+			newMember.setMember_Gid(member_Uid);
 		//	syslog.getLog(user_uid);
-			newmember.setUser_id(user_id);
+			newMember.setMember_Id(member_Id);
 		//	syslog.getLog(user_id);
-			newmember.setUser_name(user_id);			
-			newmember.setUser_email(user_email);
+			newMember.setMember_Username(member_Id);			
+			newMember.setMember_Email(member_Email);
 			//syslog.getLog(user_email);
-			newmember.setUser_password(getHash(user_password,"SHA256"));
+			newMember.setMember_Password(getHash(member_Password,"SHA256"));
 		//	syslog.getLog(user_password);
 			
-			memberService.signUpMember(newmember);
+			memberService.insertMember(newMember);
 		
 			syslog.getLog("id가 생성되었습니다");
 		}else
@@ -143,11 +145,11 @@ public class MemberController {
 	
 	@RequestMapping(value="/memberProfile",method=RequestMethod.GET)
 	public String memberProfile(HttpSession session,Model model) {
-		String user_id=(String)session.getAttribute("user_id");
+		String member_Id=(String)session.getAttribute("member_Id");
 		
-		if(user_id!=null)
+		if(member_Id!=null)
 		{
-			Member member=memberService.selectMember(user_id);	
+			Member member=memberService.selectMember(member_Id);	
 			if(member!=null)
 			{
 				model.addAttribute("member",member);			
@@ -158,22 +160,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberProfile",method=RequestMethod.POST)
-	public String memberProfile(HttpSession session,String user_name,String user_email,String user_password)
+	public String memberProfile(HttpSession session,String member_Username,
+			String member_Email,String member_Password)
 	{
 		syslog.getLog("memberProfile Update 진입");
-		String user_id=(String)session.getAttribute("user_id");
-		if(user_id!=null)
+		String member_Id=(String)session.getAttribute("member_Id");
+		if(member_Id!=null)
 		{
-			Member member=memberService.selectMember(user_id);
+			Member member=memberService.selectMember(member_Id);
 			if(member!=null)
 			{
 				
-				if(user_name!=null&&user_name!="")member.setUser_name(user_name);
-				if(user_email!=null&&user_email!="")member.setUser_email(user_email);
-				if(user_password!=null&&user_password!="")member.setUser_password(getHash(user_password,"SHA256"));
+				if(member_Username!=null&&member_Username!="")member.setMember_Username(member_Username);
+				if(member_Email!=null&&member_Email!="")member.setMember_Email(member_Email);
+				if(member_Password!=null&&member_Password!="")member.setMember_Password(getHash(member_Password,"SHA256"));
 				syslog.getLog("memberProfile Update 적용");	
 				
-				boolean updatelog=memberService.memberUpdate(member);
+				boolean updatelog=memberService.updateMember(member);
 				if(updatelog)
 				{
 					syslog.getLog("memberProfile Update 적용");	
@@ -190,12 +193,12 @@ public class MemberController {
 	
 	@RequestMapping(value="/memberDelete",method=RequestMethod.POST)
 	public String memberDelete(HttpSession session) {
-		String user_id=(String)session.getAttribute("user_id");
-		if(user_id !=null)
+		String member_Id=(String)session.getAttribute("member_Id");
+		if(member_Id !=null)
 		{
 			syslog.getLog("POST->memberDelete 세션 확인");
 			try{
-				memberService.memberDelete(user_id);
+				memberService.deleteMember(member_Id);
 				session.invalidate();
 				syslog.getLog("POST->memberDelete 성공");
 				return "redirect:/";

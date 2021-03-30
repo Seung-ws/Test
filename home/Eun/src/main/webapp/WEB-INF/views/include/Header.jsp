@@ -14,10 +14,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="<c:url value='/boardList/cat/1'/>">게시판 <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-      <!-- c:url value=/login == /myapp/login -->
-        <a class="nav-link" href="<c:url value='/memberLogin'/>">로그인</a>
-      </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
@@ -34,8 +31,18 @@
       </li>
       
       
-      <!-- 세션이 비활성화일 때 로그아웃 없앰 -->
-      <c:if test="${not empty sessionScope.user_id }">
+      <!-- 세션이 비활성화일 때 로그인 -->
+      <c:if test="${empty sessionScope.member_Id }">
+      	<li class="nav-item">
+      	<!-- c:url value=/login == /myapp/login -->
+        	<a class="nav-link" href="<c:url value='/memberLogin'/>">로그인</a>
+      	</li>
+      </c:if>
+      <!--  세션비 활성화일 때 로그아웃 -->
+      <c:if test="${not empty sessionScope.member_Id }">
+    	  <li class="nav-item">
+	      	<a class="nav-link" href="<c:url value='/memberProfile?refurl=${pathURI }'/>">프로필</a>
+	      </li>
 	      <li class="nav-item">
 	      	<a class="nav-link" href="<c:url value='/memberLogout?refurl=${pathURI }'/>">로그아웃</a>
 	      </li>

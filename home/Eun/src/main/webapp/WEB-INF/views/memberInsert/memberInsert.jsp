@@ -20,7 +20,7 @@
 
 
 <!-- session valid -->
-<c:if test="${empty sessionScope.user_name }">
+<c:if test="${empty sessionScope.member_Username }">
 	<div class="signuppanel">
 		<!-- 로그인을 포스트로 전달 -->
    		<form class="form-signup" method="post" action="<c:url value='/memberInsert'/>" >	
@@ -32,7 +32,7 @@
 	  		<label for="inputUserid" class="sr">ID</label>
 	  		
 	  		<div class="input-group">
-	  			<input type="text" name="user_id" class="form-control" placeholder="userid" required autofocus>
+	  			<input type="text" name="member_Id" class="form-control" placeholder="아이디" required autofocus>
 	  			<span class="input-group-btn">
         			<button class="btn btn-primary form-btn" type="button">인증</button>
       			</span>
@@ -43,7 +43,7 @@
 	  		<label for="inputEmail" class="sr">Email address</label>
 	  		
 	  		<div class="input-group">
-	  			<input type="text" name="user_email" class="form-control" placeholder="email" required>
+	  			<input type="text" name="member_Email" class="form-control" placeholder="이메일" required>
 	  			<span class="input-group-btn">
         			<button class="btn btn-primary form-btn" type="button">인증</button>
       			</span>
@@ -51,8 +51,8 @@
 	  		<!-- 비밀번호 정보 -->
 	  		<label for="inputPassword" class="sr">Password</label>
 	  	
-		  		<input type="password" name="user_password"  id="inputPassword" class="form-control" placeholder="Password" required>
-		  		<input type="password" name="user_validpassword"  id="validPassword" class="form-control" placeholder="valid Password" required>
+		  		<input type="password" name="member_Password"  id="inputPassword" class="form-control" placeholder="비밀번호" required>
+		  		<input type="password" name="member_ValidPassword"  id="validPassword" class="form-control" placeholder="비밀번호확인" required>
 		  		
 	  		    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
 	  		<p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>

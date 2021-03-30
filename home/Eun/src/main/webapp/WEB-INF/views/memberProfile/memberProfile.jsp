@@ -60,7 +60,7 @@
   <body>
     <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
     <!-- session valid -->
-	<c:if test="${empty sessionScope.user_id }">
+	<c:if test="${empty sessionScope.member_Id }">
 	
 		
 		<div class=" container bg-light">
@@ -94,7 +94,8 @@
 		            <div class="col-sm-6 " >
 		              <label for="firstName" class="form-label">username</label>
 		            
-		              <input type="text" class="form-control" name="user_name" id="username" placeholder="username" value="${member.user_name }" required>
+		              <input type="text" class="form-control" name="member_Username"
+		               id="username" placeholder="username" value="${member.member_Username }" required>
 
 		              <div class="invalid-feedback">
 		                Valid first name is required.
@@ -109,14 +110,14 @@
 				
 					<div class="col-12">
 		              <label for="password" class="form-label">Password <span class="text-muted">(Optional)</span></label>
-		              <input type="password" class="form-control" name="user_password" id="password" placeholder="passwordc">
+		              <input type="password" class="form-control" name="member_Password" id="password" placeholder="passwordc">
 		              <label for="password" class="form-label">Password valid<span class="text-muted">(Optional)</span></label>
 		              <input type="password" class="form-control"  id="password valid" placeholder="passwordc">
 		            </div>
 		            
 		            <div class="col-12">
 		              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-		              <input type="email" class="form-control" name="user_email" placeholder="you@example.com" value="${member.user_email }">
+		              <input type="email" class="form-control" name="member_Email" placeholder="you@example.com" value="${member.member_Email }">
 		              <div class="invalid-feedback">
 		                Please enter a valid email address for shipping updates.
 		              </div>

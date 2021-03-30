@@ -4,65 +4,64 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Member {
-	String user_uid;
-	String user_gid;
-	String user_id;
-	String user_name;
-	String user_password;	
-	String user_email;
-	String user_profileimage;
-	Timestamp user_createdate;
+	String member_Uid;
+	String member_Gid;
+	String member_Id;
+	String member_Username;
+	String member_Password;	
+	String member_Email;
+	String member_Image;
+	Timestamp member_CreateDate;
+	public String getMember_Uid() {
+		return member_Uid;
+	}
+	public void setMember_Uid(String member_Uid) {
+		this.member_Uid = member_Uid;
+	}
+	public String getMember_Gid() {
+		return member_Gid;
+	}
+	public void setMember_Gid(String member_Gid) {
+		this.member_Gid = member_Gid;
+	}
+	public String getMember_Id() {
+		return member_Id;
+	}
+	public void setMember_Id(String member_Id) {
+		this.member_Id = member_Id;
+	}
+	public String getMember_Username() {
+		return member_Username;
+	}
+	public void setMember_Username(String member_Username) {
+		this.member_Username = member_Username;
+	}
+	public String getMember_Password() {
+		return member_Password;
+	}
+	public void setMember_Password(String member_Password) {
+		this.member_Password = member_Password;
+	}
+	public String getMember_Email() {
+		return member_Email;
+	}
+	public void setMember_Email(String member_Email) {
+		this.member_Email = member_Email;
+	}
+	public String getMember_Image() {
+		return member_Image;
+	}
+	public void setMember_Image(String member_Image) {
+		this.member_Image = member_Image;
+	}
+	public Timestamp getMember_CreateDate() {
+		return member_CreateDate;
+	}
+	public void setMember_CreateDate(Timestamp member_CreateDate) {
+		this.member_CreateDate = member_CreateDate;
+	}
 
 	
-	public String getUser_uid() {
-		return user_uid;
-	}
-	public void setUser_uid(String user_uid) {
-		this.user_uid = user_uid;
-	}
-	public String getUser_gid() {
-		return user_gid;
-	}
-	public void setUser_gid(String user_gid) {
-		this.user_gid = user_gid;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-	public String getUser_name() {
-		return user_name;
-	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
-	}
-	public String getUser_password() {
-		return user_password;
-	}
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
-	}
-	public String getUser_email() {
-		return user_email;
-	}
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
-	}
-	public String getUser_profileimage() {
-		return user_profileimage;
-	}
-	public void setUser_profileimage(String user_profileimage) {
-		this.user_profileimage = user_profileimage;
-	}
-	public Timestamp getUser_createdate() {
-		return user_createdate;
-	}
-	public void setUser_createdate(Timestamp user_createdate) {
-		this.user_createdate = user_createdate;
-	}
-
 	
 
 }
