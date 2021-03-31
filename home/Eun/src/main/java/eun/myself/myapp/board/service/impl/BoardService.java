@@ -71,30 +71,44 @@ public class BoardService implements IBoardService{
 	@Transactional
 	public void replyArticle(Board board) {
 		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
-		
+		//답글이 하나라도 있을 떈 ...
 		if(board.getReply_Board_Step()>0)
 		{
-			int sum =boardRepository.selectMaxSameStep(board.getBoard_Master_Id(),
-					board.getReply_Board_Step()+1, board.getReply_Board_Number());
-			int reply_no=boardRepository.selectCustomMaxReplyNo(board.getBoard_Master_Id(),
-					board.getReply_Board_Step()+1, board.getReply_Board_Number());
+			int sum=0;
+				//다음 답글 스탭의 갯수를 반환
+			Integer ceil_Num =ceil_Num=(boardRepository.selectCustomMaxReplyNo(board.getBoard_Master_Id(),
+					board.getReply_Board_Step(), board.getReply_Board_Number()));
+			if(ceil_Num==null)
+			{
+				sum=boardRepository.selectMaxZeroSameStep(board.getBoard_Master_Id(),
+						board.getReply_Board_Step(), board.getReply_Board_Number());	
+			}else
+			{
+				sum =boardRepository.selectMaxCeilSameStep(board.getBoard_Master_Id(),
+						board.getReply_Board_Step(), board.getReply_Board_Number(),ceil_Num);
+			}
+
+		
+				//리플 갯수를 반환
 			System.out.println("확인용 sum : "+sum);
-			System.out.println("확인용 reply_no : "+reply_no);
-			System.out.println("확인용 getReply_number : "+board.getReply_Board_Number());
-			
+			System.out.println("확인용 CEILINGNUM : "+ceil_Num);
+			//System.out.println("확인용 getReply_number : "+board.getReply_Board_Number());
+			//중간에 생기는 게시물에 대해 뒤로 한칸 씩 밀겠다 
 			boardRepository.updateReplyNumber(board.getBoard_Master_Id(), board.getReply_Board_Number()+sum);	
-			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);
-			board.setReply_Board_StartBoard(board.getReply_Board_Number());
-			board.setReply_Board_Number(board.getReply_Board_Number()+1+sum);
+			//해당 sum위치 
+			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);//보더 아이디 추가 1
+		//	board.setReply_Board_StartBoard(board.getReply_Board_Number());
+			board.setReply_Board_Number(board.getReply_Board_Number()+1+sum);// 보더 넘버1개 추가하면서 
 			board.setReply_Board_Step(board.getReply_Board_Step()+1);	
 		
 		}
 		else {
 			//답글이 없는 게시물의 때 갱신방식
-			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);
-			board.setReply_Board_StartBoard(board.getReply_Board_Number());
-			board.setReply_Board_Number(boardRepository.selectMaxReplyNo(board.getBoard_Master_Id())+1);
-			board.setReply_Board_Step(board.getReply_Board_Step()+1);	
+			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);//게시물 최대 아이디 지정
+			//board.setReply_Board_StartBoard(board.getReply_Board_Number());//게시물 
+			board.setReply_Board_Number(boardRepository.selectMaxReplyNo(board.getBoard_Master_Id())+1);//답글 갯수 0->1
+			board.setReply_Board_Step(board.getReply_Board_Step()+1);	//게시물 답글스탭0->1로
+			
 		}
 		
 		
@@ -104,20 +118,31 @@ public class BoardService implements IBoardService{
 	@Transactional
 	public void replyArticle(Board board, BoardUploadFile file) {
 		//답글 순서를 업데이트하고 파일이 없는 답글 올리기 
-		
+
 		if(board.getReply_Board_Step()>0)
 		{
-			int sum =boardRepository.selectMaxSameStep(board.getBoard_Master_Id(),
-					board.getReply_Board_Step()+1, board.getReply_Board_Number());
-			int reply_no=boardRepository.selectCustomMaxReplyNo(board.getBoard_Master_Id(),
-					board.getReply_Board_Step()+1, board.getReply_Board_Number());
+			int sum=0;
+			//다음 답글 스탭의 갯수를 반환
+			Integer ceil_Num =ceil_Num=(boardRepository.selectCustomMaxReplyNo(board.getBoard_Master_Id(),
+					board.getReply_Board_Step(), board.getReply_Board_Number()));
+			if(ceil_Num==null)
+			{
+				sum=boardRepository.selectMaxZeroSameStep(board.getBoard_Master_Id(),
+						board.getReply_Board_Step(), board.getReply_Board_Number());	
+			}else
+			{
+				sum =boardRepository.selectMaxCeilSameStep(board.getBoard_Master_Id(),
+						board.getReply_Board_Step(), board.getReply_Board_Number(),ceil_Num);
+			}
+			
 			System.out.println("확인용 sum : "+sum);
-			System.out.println("확인용 reply_no : "+reply_no);
+			System.out.println("확인용 reply_no : "+ceil_Num);
 			System.out.println("확인용 getReply_number : "+board.getReply_Board_Number());
 			
 			boardRepository.updateReplyNumber(board.getBoard_Master_Id(), board.getReply_Board_Number()+sum);	
 			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);
 			board.setReply_Board_StartBoard(board.getReply_Board_Number());
+			//리플의 갯수를 늘리고 리플의 스탭을 늘린다.
 			board.setReply_Board_Number(board.getReply_Board_Number()+1+sum);
 			board.setReply_Board_Step(board.getReply_Board_Step()+1);	
 		
@@ -125,8 +150,11 @@ public class BoardService implements IBoardService{
 		else {
 			//답글이 없는 게시물의 때 갱신방식
 			board.setBoard_Id(boardRepository.selectMaxArticleNo()+1);
+			
 			board.setReply_Board_StartBoard(board.getReply_Board_Number());
+			
 			board.setReply_Board_Number(boardRepository.selectMaxReplyNo(board.getBoard_Master_Id())+1);
+			
 			board.setReply_Board_Step(board.getReply_Board_Step()+1);	
 		}
 		boardRepository.replyArticle(board);
@@ -187,6 +215,7 @@ public class BoardService implements IBoardService{
 			boardRepository.deleteArticleByBoardId(board_Id);
 			
 		}else if(reply_Board_Number==0){
+			//같은 마스터아이디를 가진것을 모두 제거
 			boardRepository.deleteFileData(board_Id);
 			boardRepository.deleteArticleByMasterId(board_Id);
 		}else {

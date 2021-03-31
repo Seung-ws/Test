@@ -87,13 +87,19 @@ public class BoardController {
 	
 	@RequestMapping("/board/{board_Id}/{page}")	
 	public String getBoardDetails(@PathVariable int board_Id, @PathVariable int page, Model model) {
-		syslog.getLog("1");
+		
 		//게시물의 정보를 가져오며 뷰어에서 출력할 수 있도록 request정보 입력
 		Board board = boardService.selectArticle(board_Id);
 		model.addAttribute("board", board);
 		model.addAttribute("page", page);
 		model.addAttribute("category_Id", board.getCategory_Id());
-		syslog.getLog("근본 게시물 id : "+board.getReply_Board_StartBoard());
+		syslog.getLog("--게시글 보기");
+		syslog.getLog("board_Id : "+board.getBoard_Id());
+		syslog.getLog("category_Id : "+board.getCategory_Id());
+		syslog.getLog("board_Master_Id : "+board.getBoard_Master_Id());
+		syslog.getLog("reply_Board_Number : "+board.getReply_Board_Number());
+		syslog.getLog("reply_Board_Step : "+board.getReply_Board_Step());
+		syslog.getLog("reply_Board_StartBoard : "+board.getReply_Board_StartBoard());
 		//logger.info("getBoardDetails " + board.toString());
 		return "boardView/boardView";
 	}
@@ -124,10 +130,13 @@ public class BoardController {
 		 * 게시물쓰기 모드로 게시글을 작성한다.
 		 * 작성한 뒤에는 게시물 목록으로 돌아온다.
 		 */
-		syslog.getLog("/boardWrite : " + board.toString());
+		syslog.getLog("--게시글 쓰기");
 		syslog.getLog("board_Id : "+board.getBoard_Id());
-		syslog.getLog("board_Writer_Id : "+board.getBoard_Writer_Id());
-		syslog.getLog("board_Password : "+board.getBoard_Password());
+		syslog.getLog("category_Id : "+board.getCategory_Id());
+		syslog.getLog("board_Master_Id : "+board.getBoard_Master_Id());
+		syslog.getLog("reply_Board_Number : "+board.getReply_Board_Number());
+		syslog.getLog("reply_Board_Step : "+board.getReply_Board_Step());
+		syslog.getLog("reply_Board_StartBoard : "+board.getReply_Board_StartBoard());
 		try{
 			syslog.getLog("title:"+board.getBoard_Title());
 			board.setBoard_Title(Jsoup.clean(board.getBoard_Title(), Whitelist.basic()));
@@ -263,11 +272,18 @@ public class BoardController {
 //	    }
 
 		try{
-			syslog.getLog("-1");
+			syslog.getLog("--리플 쓰기");
+			syslog.getLog("board_Id : "+board.getBoard_Id());
+			syslog.getLog("category_Id : "+board.getCategory_Id());
+			syslog.getLog("board_Master_Id : "+board.getBoard_Master_Id());
+			syslog.getLog("reply_Board_Number : "+board.getReply_Board_Number());
+			syslog.getLog("reply_Board_Step : "+board.getReply_Board_Step());
+			syslog.getLog("reply_Board_StartBoard : "+board.getReply_Board_StartBoard());
+			
 			board.setBoard_Title(Jsoup.clean(board.getBoard_Title(), Whitelist.basic()));
 			board.setBoard_Content(Jsoup.clean(board.getBoard_Content(), Whitelist.basic()));
-			syslog.getLog("-2");
-			syslog.getLog(""+board.getReply_Board_Number());
+			board.setReply_Board_StartBoard(board.getBoard_Id());
+	
 			MultipartFile mfile = board.getFile();
 			if(mfile!=null && !mfile.isEmpty()) {
 				//logger.info("/board/reply : " + mfile.getOriginalFilename());
@@ -282,7 +298,7 @@ public class BoardController {
 			}else {
 				
 				boardService.replyArticle(board);
-				syslog.getLog("-3");
+				
 			}
 		}catch(Exception e){
 			e.printStackTrace();

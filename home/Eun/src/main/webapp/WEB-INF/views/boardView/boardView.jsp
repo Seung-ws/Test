@@ -15,7 +15,6 @@
 <jsp:include page="/WEB-INF/views/include/Header.jsp"/>
 <div class="boardViewPanel">
 	<div class="boardViewContents">
-
 		    <div class="pg-opt">
 		        <div class="row">
 			            <div class="col-md-6 pc">
@@ -29,73 +28,70 @@
 			            </div>
 			        </div>
 			    </div>
-				<div class="content">
-			
+				<div class="content">			
 				<table class="table table-bordered">
 				<tr class="pc">
 					<td colspan=2 align="right">
-					<a href='<c:url value="/boardList/cat/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
-					<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
-					<a href='<c:url value="/boardReply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
-					<a href='<c:url value="/boardUpdate/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
-					<a href='<c:url value="/boardDelete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
+					<a href='<c:url value="/boardList/cat/${category_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
+					<a href='<c:url value="/boardWrite/${category_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+					<a href='<c:url value="/boardReply/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
+					<a href='<c:url value="/boardUpdate/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
+					<a href='<c:url value="/boardDelete/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
 					</td>
 				</tr>
 				<tr>
 					<td width="20%"><fmt:message key="BOARD_ID"/></td>
-					<td>${board.board_id}</td>
+					<td>${board.board_Id}</td>
 				</tr>
 				<tr>
 					<td width="20%"><fmt:message key="WRITER"/></td>
-					<td>${board.writer}</td>
+					<td>${board.board_Writer}</td>
 				</tr>
 				<tr>
 					<td width="20%"><fmt:message key="WRITE_DATE"/></td>
-					<td>${board.writeDate} </td>
+					<td>${board.board_WriteDate} </td>
 				</tr>
 				<tr>
 					<td><fmt:message key="SUBJECT"/> </td>
-					<td>${board.title}</td>
+					<td>${board.board_Title}</td>
 				</tr>
 				<tr>
 					<td><fmt:message key="CONTENT"/></td>
-					<td class="board_content">${board.content}</td>
+					<td class="board_content">${board.board_Content}</td>
 				</tr>
-				<c:if test="${!empty board.file_name}">
+				<c:if test="${!empty board.file_Name}">
 				<tr>
 					<td><fmt:message key="FILE"/></td>
 					<td>
 					<%--c:if test="${!empty sessionScope.user_id}"--%>
-					<c:set var="len" value="${fn:length(board.file_name)}"/>
-					<c:set var="file_type" value="${fn:toUpperCase(fn:substring(board.file_name, len-4, len))}"/>
-					<c:if test="${(file_type eq '.JPG') or (file_type eq 'JPEG') or (file_type eq '.PNG') or (file_type eq '.GIF')}"><img src='<c:url value="/file/${board.file_id}"/>' class="img-thumbnail"><br></c:if>
+					<c:set var="len" value="${fn:length(board.file_Name)}"/>
+					<c:set var="file_type" value="${fn:toUpperCase(fn:substring(board.file_Name, len-4, len))}"/>
+					<c:if test="${(file_Type eq '.JPG') or (file_Type eq 'JPEG') or (file_Type eq '.PNG') or (file_Type eq '.GIF')}"><img src='<c:url value="/file/${board.file_Id}"/>' class="img-thumbnail"><br></c:if>
 					<%--/c:if--%>
-					<a href='<c:url value="/file/${board.file_id}"/>'>${board.file_name} (<fmt:formatNumber>${board.file_size}</fmt:formatNumber>byte)</a>
+					<a href='<c:url value="/file/${board.file_Id}"/>'>${board.file_Name} (<fmt:formatNumber>${board.file_Size}</fmt:formatNumber>byte)</a>
 					</td>
 				</tr>
 				</c:if>
 				<tr>
 					<td colspan=2 align="right">
-						<a href='<c:url value="/boardList/cat/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
-						<a href='<c:url value="/boardWrite/${category_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
-						<a href='<c:url value="/boardReply/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
-						<a href='<c:url value="/boardUpdate/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
-						<a href='<c:url value="/boardDelete/${board.board_id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
+						<a href='<c:url value="/boardList/cat/${category_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="BOARD_LIST"/></button></a>
+						<a href='<c:url value="/boardWrite/${category_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="WRITE_NEW_ARTICLE"/></button></a>
+						<a href='<c:url value="/boardReply/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="REPLY"/></button></a>
+						<a href='<c:url value="/boardUpdate/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="UPDATE"/></button></a>
+						<a href='<c:url value="/boardDelete/${board.board_Id}"/>'><button type="button" class="btn btn-info"><fmt:message key="DELETE"/></button></a>
 					</td>
 				</tr>
 			
 				</table>
+				</div>
 			</div>
 		</div>
-
-</div>
-			<span>boardid:${board.board_id}</span><br>
-			<span>category_id:${board.category_id}</span><br>
-			<span>master_id:${board.master_id}</span><br>
-			<span>reply_number:${board.reply_number}</span><br>
-			<span>reply_step:${board.reply_step}</span><br>
-			<span>reply_parents_number:${board.reply_parents_number}</span><br>
-		
-<jsp:include page="/WEB-INF/views/include/Footer.jsp"/>
+			<span>board_Id:${board.board_Id}</span><br>
+			<span>category_Id:${board.category_Id}</span><br>
+			<span>master_Id:${board.board_Master_Id}</span><br>
+			<span>reply_Number:${board.reply_Board_Number}</span><br>
+			<span>reply_Board_Step:${board.reply_Board_Step}</span><br>
+			<span>reply_Board_StartBoard:${board.reply_Board_StartBoard}</span><br>
+	<jsp:include page="/WEB-INF/views/include/Footer.jsp"/>
 </body>
 </html>

@@ -10,8 +10,9 @@ import eun.myself.myapp.board.model.BoardUploadFile;
 public interface IBoardRepository {
 	int selectMaxArticleNo();
 	int selectMaxReplyNo(@Param("board_Master_Id") int board_Master_Id);//최신리플을 아래쪽으로 쌓기 위해 체크
-	int selectCustomMaxReplyNo(@Param("board_Master_Id") int board_Master_Id,@Param("reply_Board_Step")int reply_Board_Step,@Param("reply_Board_StartBoard")int reply_Board_StartBoard);
-	int selectMaxSameStep(@Param("board_Master_Id") int board_Master_Id,@Param("reply_Board_Step")int reply_Board_Step,@Param("reply_parents_number")int reply_parents_number);
+	Integer selectCustomMaxReplyNo(@Param("board_Master_Id") int board_Master_Id,@Param("reply_Board_Step")int reply_Board_Step,@Param("reply_Board_Number")int reply_Board_Number);
+	int selectMaxCeilSameStep(@Param("board_Master_Id") int board_Master_Id,@Param("reply_Board_Step")int reply_Board_Step,@Param("reply_Board_Number")int reply_Board_Number,@Param("ceil_Num")int ceil_Num);
+	int selectMaxZeroSameStep(@Param("board_Master_Id") int board_Master_Id,@Param("reply_Board_Step")int reply_Board_Step,@Param("reply_Board_Number")int reply_Board_Number);
 	
 	int selectMaxFileId();
 	

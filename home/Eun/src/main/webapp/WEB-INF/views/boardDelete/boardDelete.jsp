@@ -24,13 +24,13 @@
 	<div class="content">
 		<h3><fmt:message key="DELETE_MSG"/></h3>
 		<form action='<c:url value="/boardDelete"/>' class="form-inline" method="post">
-		<input type="hidden" name="board_id" value="${board_id}">
-		<input type="hidden" name="reply_number" value="${reply_number}">
-		<input type="hidden" name="category_id" value="${category_id}">
-		<input type="hidden" name="master_id"  value="${master_id}">
+		<input type="hidden" name="board_Id" value="${board_Id}">
+		<input type="hidden" name="reply_Board_Number" value="${reply_Board_Number}">
+		<input type="hidden" name="category_Id" value="${category_Id}">
+		<input type="hidden" name="board_Master_Id"  value="${board_Master_Id}">
 		<div class="form-group">
 		<div class="col-sm-8">
-		<input type="password" name="board_password" class="form-control" required>
+		<input type="password" name="board_Password" class="form-control" required>
 		</div>
 		<div class="col-sm-2">
 		<input type="submit" class="btn btn-danger" value="<fmt:message key="DELETE_ARTICLE"/>">
@@ -38,7 +38,7 @@
 		</div>
 		</form>
 		<div class="form-group pc"><div class="col-sm-10">
-		<c:if test="${ !empty sessionScope.user_id}">
+		<c:if test="${ !empty sessionScope.member_Id}">
 		로그인 사용자는 아무 비밀번호나 입력해도 글이 삭제됩니다.
 		</c:if>
 		</div></div>
